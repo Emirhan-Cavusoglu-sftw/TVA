@@ -1,9 +1,6 @@
-import Image from "next/image";
-
 export default function Home() {
   return (
-    <div>
-      <h1>Tron Project</h1>
+    <div className="bg-gradient-to-r from-purple-950 to-violet-600 min-h-screen">
       
     </div>
   );

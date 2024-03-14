@@ -8,18 +8,18 @@ const Header = () => {
   const pathname = usePathname();
 
   return (
-    <header className="bg-gradient-to-r from-purple-950 to-violet-600 flex justify-between items-center p-4">
+    <header className="bg-gradient-to-r from-purple-950 to-violet-600 flex justify-around items-center p-4">
       <div className="flex items-center">
         <Link href="/">
           <div className="flex items-center mr-2">
             <div className="mr-2">
               <Image src={"/tva-logo.png"} alt="TVA" width={50} height={20} />
             </div>
-            <div className="text-white text-lg font-semibold">TVA</div>
+            <div className="text-white text-lg font-semibold pl-5">TVA</div>
           </div>
         </Link>
       </div>
-      <nav className="flex space-x-4">
+      <nav className="flex space-x-24 ">
         <Link href="/AboutUs">
         <div
               className={

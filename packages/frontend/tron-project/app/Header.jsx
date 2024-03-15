@@ -7,6 +7,11 @@ const Header = () => {
 
   const pathname = usePathname();
 
+  
+  
+  
+  
+  
   return (
     <header className="bg-gradient-to-r from-purple-950 to-violet-600 flex justify-around items-center p-4">
       <div className="flex items-center">
@@ -19,6 +24,7 @@ const Header = () => {
           </div>
         </Link>
       </div>
+      
       <nav className="flex space-x-24 ">
         <Link href="/AboutUs">
         <div
@@ -73,3 +79,4 @@ const Header = () => {
 };
 
 export default Header;
+

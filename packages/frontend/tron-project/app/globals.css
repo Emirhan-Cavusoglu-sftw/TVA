@@ -18,12 +18,6 @@
     padding: 0;
   }
   
-  .container {
-    display: flex;
-    height: 100vh;
-    background-color: #0f0c29;
-  }
-  
   .slideshow {
     margin: auto;
     width: 60vw;

@@ -35,13 +35,13 @@ const [index, setIndex] = useState(0);
   return (
     <div className="bg-gradient-to-r flex items-center justify-center from-purple-950 to-violet-600 min-h-screen">
       
-      <div className="container">
+      
         <div className="slideshow">
           <img src={images[index]} alt="slides" className="slides" />
           <button className="prevButton" onClick={prevStep}>◀</button>
           <button className="nextButton" onClick={nextStep}>▶</button>
         </div>
-      </div>
+      
 
     </div>
   );

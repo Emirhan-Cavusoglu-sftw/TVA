@@ -1,6 +1,5 @@
-"use client";
-import React from "react";
-import { useState } from "react";
+"use client"
+import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 const images = [
@@ -17,7 +16,6 @@ const variants = {
     return {
       x: direction > 0 ? 1000 : -1000,
       opacity: 0,
-
     };
   },
   animate: {
@@ -45,6 +43,14 @@ const variants = {
 export default function Home() {
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      nextStep();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [index]);
 
   function nextStep() {
     setDirection(1);

@@ -34,7 +34,7 @@ function WalletComponent() {
 function ConnectComponent() {
   const { connect, disconnect, select, connected } = useWallet();
   return (
-    <WalletActionButton className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded-full w-48 justify-center"></WalletActionButton>
+    <WalletActionButton className="bg-gradient-to-r from-amber-300 to-amber-600 text-white font-bold rounded-full w-48 justify-center"></WalletActionButton>
   );
 }
 

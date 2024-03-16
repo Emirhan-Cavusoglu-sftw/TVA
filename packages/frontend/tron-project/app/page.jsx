@@ -71,7 +71,7 @@ export default function Home() {
   }
 
   return (
-    <div className="bg-gradient-to-r flex items-center justify-center from-purple-950 to-violet-600 min-h-screen">
+    <div className="bg-gradient-to-r flex items-center justify-center from-purple-950 to-violet-600 min-h-screen flex-col">
       <div className="slideshow">
         <AnimatePresence initial={false} custom={direction}>
           <motion.img
@@ -93,6 +93,15 @@ export default function Home() {
           ▶
         </button>
       </div>
+
+      <motion.div
+          className="text-white h-10"
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat sit adipisci aliquam cum magnam vero tempore facilis voluptatibus eius, fuga repudiandae tenetur reprehenderit? Ducimus ullam vel, aut deleniti magnam suscipit.</p>
+      </motion.div>
+
     </div>
   );
 }

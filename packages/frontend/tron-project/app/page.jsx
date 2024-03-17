@@ -71,7 +71,7 @@ export default function Home() {
   }
 
   return (
-    <div className="bg-gradient-to-r flex items-center justify-center from-purple-950 to-violet-600 min-h-screen flex-col">
+    <div className="bg-gradient-to-r from-purple-950 to-violet-600 flex items-center justify-center min-h-screen flex-col">
       <div className="slideshow">
         <AnimatePresence initial={false} custom={direction}>
           <motion.img

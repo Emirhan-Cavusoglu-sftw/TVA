@@ -2,6 +2,7 @@
   "name": "tron-project",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://api.shasta.trongrid.io",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@noble/secp256k1": "1.7.1",
     "@tronweb3/tronwallet-abstract-adapter": "^1.1.6",
     "@tronweb3/tronwallet-adapter-react-hooks": "^1.1.7",
     "@tronweb3/tronwallet-adapter-react-ui": "^1.1.8",
@@ -16,7 +18,9 @@
     "@tronweb3/tronwallet-adapters": "^1.2.0",
     "@tronweb3/walletconnect-tron": "^2.0.0",
     "@walletconnect/sign-client": "^2.11.2",
+    "express": "^4.18.3",
     "framer-motion": "^11.0.13",
+    "http-proxy-middleware": "^2.0.6",
     "next": "14.1.3",
     "react": "^18",
     "react-dom": "^18",

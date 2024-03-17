@@ -1,6 +1,27 @@
 "use client"
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import TronWeb from "tronweb";
+import testABI from "./abis/testABI.json";
+import {testAddress} from "./Utils/addresses.js";
+import { addRequestMeta } from "next/dist/server/request-meta";
+
+
+
+
+const tronWeb = new TronWeb({
+  fullHost: 'https://api.shasta.trongrid.io',
+  headers: { 'TRON-PRO-API-KEY': '7c7f62a2-256b-4779-a1c0-1e6a6f7f934b' ,
+  'Access-Control-Allow-Origin': '*',
+},
+  privateKey: process.env.NEXT_PUBLIC_PRIVATE_KEY,
+  withCredentials: true,
+});
+
+
+
+
+
 
 const images = [
   "https://images.unsplash.com/photo-1505533321630-975218a5f66f?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -43,13 +64,32 @@ const variants = {
 export default function Home() {
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(0);
-
+  const [result, setresult] = useState({})
+  const contract = tronWeb.contract(testABI, testAddress);
+  console.log(contract);
+console.log(window.tronWeb.defaultAddress.base58);
+tronWeb.setAddress(window.tronWeb.defaultAddress.base58);
+  async function store() {
+    try {
+      const result = await contract.store(4).send({
+        callValue: 0,
+        shouldPollResponse: true,
+        
+      })
+    } catch (error) {
+      console.log(error);
+    }
+    
+    
+    setresult(result);
+  }
+  console.log(result);
   useEffect(() => {
-    const interval = setInterval(() => {
-      nextStep();
-    }, 5000);
+    // const interval = setInterval(() => {
+    //   nextStep();
+    // }, 5000);
 
-    return () => clearInterval(interval);
+    // return () => clearInterval(interval);
   }, [index]);
 
   function nextStep() {
@@ -101,6 +141,12 @@ export default function Home() {
           transition={{ duration: 0.5 }}>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat sit adipisci aliquam cum magnam vero tempore facilis voluptatibus eius, fuga repudiandae tenetur reprehenderit? Ducimus ullam vel, aut deleniti magnam suscipit.</p>
       </motion.div>
+
+
+      <button onClick={()=>store()}>
+        ONCLICK
+      </button>
+
 
     </div>
   );

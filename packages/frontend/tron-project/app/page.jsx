@@ -1,29 +1,18 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import testABI from "./abis/testABI.json";
-import {testAddress} from "./Utils/addresses.js";
+import { testAddress } from "./Utils/addresses.js";
 import { addRequestMeta } from "next/dist/server/request-meta";
-const TronWeb = require('tronweb');
-
-
-
-
+import { useWallet } from "@tronweb3/tronwallet-adapter-react-hooks";
+const TronWeb = require("tronweb");
 
 const tronWeb = new TronWeb({
-  fullHost: 'https://api.shasta.trongrid.io',
-  headers: { 
-  
-},
-  
-  privatekey: process.env.NEXT_PUBLIC_PRIVATE_KEY,
+  fullHost: "https://api.shasta.trongrid.io",
+  headers: {},
+
+  privateKey: process.env.NEXT_PUBLIC_PRIVATE_KEY,
 });
-
-
-
-
-
-
 
 const images = [
   "https://images.unsplash.com/photo-1505533321630-975218a5f66f?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -64,53 +53,51 @@ const variants = {
 };
 
 export default function Home() {
+  const { connect, disconnect, select, connected ,address,} = useWallet();
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(0);
-  const [result, setresult] = useState({})
+  const [result, setresult] = useState({});
   // const [contract, setContract] = useState()
   const contract = tronWeb.contract(testABI, testAddress);
+  console.log(address)
+  console.log(window.tronWeb.defaultAddress.base58);
+  console.log(window.tronWeb);
+  // tronWeb.setAddress(window.tronWeb.defaultAddress.base58);
   
-  // console.log(contract);
-// console.log(window.tronWeb.defaultAddress.base58);
-// tronWeb.setAddress(window.tronWeb.defaultAddress.base58);
   async function store(i) {
     try {
       const result = await contract.store(i).send({
         callValue: 0,
         shouldPollResponse: true,
-        
-      })
+      });
     } catch (error) {
       console.log(error);
     }
-    
-    
+
     setresult(result);
   }
-  console.log(result);
+
   useEffect(() => {
     // const interval = setInterval(() => {
     //   nextStep();
     // }, 5000);
-
     // return () => clearInterval(interval);
   }, [index]);
 
   useEffect(() => {
-  //   async function setContract(){
-  //     const contract = await tronWeb.contract().at("TCR7Haj8axUtxaWQq8V8hFuEySHmRHnHK9");
-  //     setContract(contract);
-  //     console.log(contract);
-  //   }
-  
-  //  setContract();
-     async function getContract(){
+    //   async function setContract(){
+    //     const contract = await tronWeb.contract().at("TCR7Haj8axUtxaWQq8V8hFuEySHmRHnHK9");
+    //     setContract(contract);
+    //     console.log(contract);
+    //   }
+
+    //  setContract();
+    async function getContract() {
       let result = await contract.retrieve().call();
       console.log(result);
-     }
+    }
     getContract();
-  }, [])
-  
+  }, []);
 
   function nextStep() {
     setDirection(1);
@@ -155,19 +142,20 @@ export default function Home() {
       </div>
 
       <motion.div
-          className="text-white h-10"
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat sit adipisci aliquam cum magnam vero tempore facilis voluptatibus eius, fuga repudiandae tenetur reprehenderit? Ducimus ullam vel, aut deleniti magnam suscipit.</p>
+        className="text-white h-10"
+        initial={{ opacity: 0, scale: 0.5 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat sit
+          adipisci aliquam cum magnam vero tempore facilis voluptatibus eius,
+          fuga repudiandae tenetur reprehenderit? Ducimus ullam vel, aut
+          deleniti magnam suscipit.
+        </p>
       </motion.div>
 
-
-      <button onClick={()=>store(3)}>
-        ONCLICK
-      </button>
-
-
+      <button onClick={() => store(3)}>ONCLICK</button>
     </div>
   );
 }

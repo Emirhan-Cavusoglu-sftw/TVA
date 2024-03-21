@@ -32,7 +32,10 @@ function WalletComponent() {
   );
 }
 function ConnectComponent() {
-  const { connect, disconnect, select, connected } = useWallet();
+  const { connect, disconnect, select, connected ,address} = useWallet();
+
+  // console.log(address)
+
   return (
     <WalletActionButton className="bg-gradient-to-r from-amber-300 to-amber-600 text-white font-bold rounded-full w-48 justify-center"></WalletActionButton>
   );

@@ -2,7 +2,7 @@
   "name": "tron-project",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://api.shasta.trongrid.io",
+  
   "scripts": {
     "dev": "next dev",
     "build": "next build",

@@ -1,22 +1,24 @@
 "use client"
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import TronWeb from "tronweb";
 import testABI from "./abis/testABI.json";
 import {testAddress} from "./Utils/addresses.js";
 import { addRequestMeta } from "next/dist/server/request-meta";
+const TronWeb = require('tronweb');
+
 
 
 
 
 const tronWeb = new TronWeb({
   fullHost: 'https://api.shasta.trongrid.io',
-  headers: { 'TRON-PRO-API-KEY': '7c7f62a2-256b-4779-a1c0-1e6a6f7f934b' ,
-  'Access-Control-Allow-Origin': '*',
+  headers: { 
+  
 },
-  privateKey: process.env.NEXT_PUBLIC_PRIVATE_KEY,
-  withCredentials: true,
+  
+  privatekey: process.env.NEXT_PUBLIC_PRIVATE_KEY,
 });
+
 
 
 
@@ -65,13 +67,15 @@ export default function Home() {
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [result, setresult] = useState({})
+  // const [contract, setContract] = useState()
   const contract = tronWeb.contract(testABI, testAddress);
-  console.log(contract);
-console.log(window.tronWeb.defaultAddress.base58);
-tronWeb.setAddress(window.tronWeb.defaultAddress.base58);
-  async function store() {
+  
+  // console.log(contract);
+// console.log(window.tronWeb.defaultAddress.base58);
+// tronWeb.setAddress(window.tronWeb.defaultAddress.base58);
+  async function store(i) {
     try {
-      const result = await contract.store(4).send({
+      const result = await contract.store(i).send({
         callValue: 0,
         shouldPollResponse: true,
         
@@ -91,6 +95,22 @@ tronWeb.setAddress(window.tronWeb.defaultAddress.base58);
 
     // return () => clearInterval(interval);
   }, [index]);
+
+  useEffect(() => {
+  //   async function setContract(){
+  //     const contract = await tronWeb.contract().at("TCR7Haj8axUtxaWQq8V8hFuEySHmRHnHK9");
+  //     setContract(contract);
+  //     console.log(contract);
+  //   }
+  
+  //  setContract();
+     async function getContract(){
+      let result = await contract.retrieve().call();
+      console.log(result);
+     }
+    getContract();
+  }, [])
+  
 
   function nextStep() {
     setDirection(1);
@@ -143,7 +163,7 @@ tronWeb.setAddress(window.tronWeb.defaultAddress.base58);
       </motion.div>
 
 
-      <button onClick={()=>store()}>
+      <button onClick={()=>store(3)}>
         ONCLICK
       </button>
 

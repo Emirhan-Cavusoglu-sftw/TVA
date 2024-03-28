@@ -8,49 +8,35 @@ import { useWallet } from "@tronweb3/tronwallet-adapter-react-hooks";
 const TronWeb = require("tronweb");
 
 const tronWeb = new TronWeb({
-  fullHost: "https://api.shasta.trongrid.io",
+  fullHost: "https://nile.trongrid.io/",
   headers: {},
 
-  privateKey: process.env.NEXT_PUBLIC_PRIVATE_KEY,
+  
 });
 
-const images = [
-  "https://images.unsplash.com/photo-1505533321630-975218a5f66f?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1591779051696-1c3fa1469a79?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1626808642875-0aa545482dfb?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1526779259212-939e64788e3c?q=80&w=1174&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1530076886461-ce58ea8abe24?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1570051008600-b34baa49e751?q=80&w=1185&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-];
-
-const variants = {
-  initial: (direction) => {
-    return {
-      x: direction > 0 ? 1000 : -1000,
-      opacity: 0,
-    };
-  },
-  animate: {
-    x: 0,
-    opacity: 1,
-
-    transition: {
-      x: { type: "spring", stiffness: 300, damping: 30 },
-      opacity: { duration: 0.2 },
-    },
-  },
-  exit: (direction) => {
-    return {
-      x: direction > 0 ? -1000 : 1000,
-      opacity: 0,
-
-      transition: {
-        x: { type: "spring", stiffness: 300, damping: 30 },
-        opacity: { duration: 0.2 },
-      },
-    };
-  },
+export const sign = async transaction => {
+  try {
+    const tronweb = window.tronWeb;
+    const signedTransaction = await tronweb.trx.sign(transaction.transaction);
+    return signedTransaction;
+  } catch (error) {
+    console.log(error, 'signerr');
+    throw new Error(error);
+  }
 };
+
+export const sendRawTransaction = async signedTransaction => {
+  try {
+    const tronweb = window.tronWeb;
+    const result = await tronweb.trx.sendRawTransaction(signedTransaction);
+    return result;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+
+  
 
 export default function Home() {
   const { connect, disconnect, select, connected ,address,} = useWallet();
@@ -59,17 +45,31 @@ export default function Home() {
   const [result, setresult] = useState({});
   // const [contract, setContract] = useState()
   const contract = tronWeb.contract(testABI, testAddress);
-  console.log(address)
-  console.log(window.tronWeb.defaultAddress.base58);
-  console.log(window.tronWeb);
-  // tronWeb.setAddress(window.tronWeb.defaultAddress.base58);
   
+  
+  console.log(window.tronWeb);
+  tronWeb.setAddress(window.tronWeb.defaultAddress.base58);
+  
+
+  console.log(tronWeb.defaultAddress.base58)
+
   async function store(i) {
     try {
-      const result = await contract.store(i).send({
-        callValue: 0,
-        shouldPollResponse: true,
-      });
+      // const result = await contract.store(i).send({
+      //   callValue: 0,
+      //   shouldPollResponse: true,
+      // });
+      
+      const result = await tronWeb.transactionBuilder.triggerSmartContract(
+        testAddress,
+        "store(uint256)",
+        { _isConstant: false },
+        [{ type: "uint256", value: 8 }],
+      );
+      console.log(result);
+      const signedTransaction = await sign(result);
+      const transaction = await sendRawTransaction(signedTransaction);
+      console.log(transaction);
     } catch (error) {
       console.log(error);
     }
@@ -85,13 +85,7 @@ export default function Home() {
   }, [index]);
 
   useEffect(() => {
-    //   async function setContract(){
-    //     const contract = await tronWeb.contract().at("TCR7Haj8axUtxaWQq8V8hFuEySHmRHnHK9");
-    //     setContract(contract);
-    //     console.log(contract);
-    //   }
-
-    //  setContract();
+    
     async function getContract() {
       let result = await contract.retrieve().call();
       console.log(result);
@@ -120,19 +114,7 @@ export default function Home() {
   return (
     <div className="bg-gradient-to-r from-purple-950 to-violet-600 flex items-center justify-center min-h-screen flex-col">
       <div className="slideshow">
-        <AnimatePresence initial={false} custom={direction}>
-          <motion.img
-            variants={variants}
-            animate="animate"
-            initial="initial"
-            exit="exit"
-            src={images[index]}
-            alt="slides"
-            className="slides"
-            key={images[index]}
-            custom={direction}
-          />
-        </AnimatePresence>
+        
         <button className="prevButton" onClick={prevStep}>
           ◀
         </button>

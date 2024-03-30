@@ -37,7 +37,7 @@ function ConnectComponent() {
   // console.log(address)
 
   return (
-    <WalletActionButton className="bg-gradient-to-r from-amber-300 to-amber-600 text-white font-bold rounded-full w-48 justify-center"></WalletActionButton>
+    <WalletActionButton className="bg-transparent text-white font-bold rounded-full w-48 justify-center text-center items-center ml-10 "></WalletActionButton>
   );
 }
 

@@ -1,12 +1,15 @@
 "use client"
 import React from "react";
 import { motion } from "framer-motion";
+import { useScroll } from "framer-motion";
 
 const AboutUs = () => {
+  const { scrollYProgress } = useScroll();
   return (
-    <div className="bg-gradient-to-r from-purple-950 to-violet-600 min-h-screen flex justify-center items-center">
+    <div className="bg-gradient-to-r from-purple-950 to-violet-600 min-h-screen flex justify-center items-center ">
       <motion.div
-        className="text-white max-w-4xl px-6 py-12"
+        className="text-white max-w-4xl px-6 py-12 mt-24 "
+        
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -34,6 +37,7 @@ const AboutUs = () => {
         </p>
       </motion.div>
     </div>
+
   );
 };
 

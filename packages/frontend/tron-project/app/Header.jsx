@@ -1,77 +1,57 @@
 "use client";
+import React from "react";
+import { motion } from "framer-motion";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import WalletComponent from "./components/WalletComponent";
-import { WalletConnectButton } from "@tronweb3/tronwallet-adapter-react-ui";
 
-const Header = () => {
+const links = [
+  {
+    name: "Home",
+    path: "/",
+  },
+  {
+    name: "About Us",
+    path: "/AboutUs",
+  },
+  {
+    name: "Contact Us",
+    path: "/ContactUs",
+  },
+  {
+    name: "How It Is Work?",
+    path: "/HowItIsWork",
+  },
+  {
+    name: "Create Design Stamp",
+    path: "/CreateDesignStamp",
+  },
+];
+
+export default function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="bg-gradient-to-r from-purple-950 to-violet-600 flex justify-around items-center p-4">
-      <div className="flex items-center">
-        <Link href="/">
-          <div className="flex items-center mr-2">
-            <div className="mr-2">
-              <Image src={"/tva-logo.png"} alt="TVA" width={50} height={20} />
-            </div>
-            <div className="text-white text-lg font-semibold pl-5">TVA</div>
-          </div>
-        </Link>
-      </div>
-
-      <nav className="flex space-x-24 ">
-        <Link className="mt-3" href="/AboutUs">
-          <div
-            className={
-              pathname === "/AboutUs"
-                ? "border-b-4 border-yellow-500 hover:text-yellow-500 text-white"
-                : "text-white hover:text-yellow-500"
-            }
-          >
-            About Us
-          </div>
-        </Link>
-        <Link className="mt-3" href="/ContactUs">
-          <div
-            className={
-              pathname === "/ContactUs"
-                ? "border-b-4 border-yellow-500 hover:text-yellow-500 text-white"
-                : "text-white hover:text-yellow-500"
-            }
-          >
-            Contact Us
-          </div>
-        </Link>
-        <Link className="mt-3" href="/HowItIsWork">
-          <div
-            className={
-              pathname === "/HowItIsWork"
-                ? "border-b-4 border-yellow-500 hover:text-yellow-500 text-white"
-                : "text-white hover:text-yellow-500"
-            }
-          >
-            How It Is Work?
-          </div>
-        </Link>
-        <Link className="mt-3" href="/CreateDesignStamp">
-          <div
-            className={
-              pathname === "/CreateDesignStamp"
-                ? "border-b-4 border-yellow-500 hover:text-yellow-500 text-white"
-                : "text-white hover:text-yellow-500"
-            }
-          >
-            Create Design Stamp
-          </div>
-        </Link>
-        <div className="">
-          <WalletComponent />
+    <header className="z-[999] relative items-center justify-center text-center">
+      <motion.div
+        className="flex justify-center fixed top-0 left-1/2 h-[4.5rem]  -translate-x-1/2 w-full
+        rounded-none border border-white border-opacity-40 bg-white
+        bg-opacity-80 shadow-lg shadow-black/[0.03] backdrop-blur-[0.5rem]
+        sm:top-6 sm:h-[3.25rem] sm:w-[72rem] sm:rounded-full"
+        initial={{ y: -100, x: "-50%", opacity: 0 }}
+        animate={{ y: 0, x: "-50%", opacity: 1 }}
+      >
+        <div className=" flex justify-around items-center p-4">
+          <nav className="flex space-x-24">
+            {links.map((link) => (
+              <Link href={link.path} key={link.path}>
+                <div className={pathname === link.path}>{link.name}</div>
+              </Link>
+            ))}
+          </nav>
         </div>
-      </nav>
+        <WalletComponent />
+      </motion.div>
     </header>
   );
-};
-
-export default Header;
+}

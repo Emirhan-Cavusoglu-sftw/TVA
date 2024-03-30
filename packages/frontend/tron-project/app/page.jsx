@@ -10,22 +10,20 @@ const TronWeb = require("tronweb");
 const tronWeb = new TronWeb({
   fullHost: "https://nile.trongrid.io/",
   headers: {},
-
-  
 });
 
-export const sign = async transaction => {
+export const sign = async (transaction) => {
   try {
     const tronweb = window.tronWeb;
     const signedTransaction = await tronweb.trx.sign(transaction.transaction);
     return signedTransaction;
   } catch (error) {
-    console.log(error, 'signerr');
+    console.log(error, "signerr");
     throw new Error(error);
   }
 };
 
-export const sendRawTransaction = async signedTransaction => {
+export const sendRawTransaction = async (signedTransaction) => {
   try {
     const tronweb = window.tronWeb;
     const result = await tronweb.trx.sendRawTransaction(signedTransaction);
@@ -35,36 +33,27 @@ export const sendRawTransaction = async signedTransaction => {
   }
 };
 
-
-  
-
 export default function Home() {
-  const { connect, disconnect, select, connected ,address,} = useWallet();
+  const { connect, disconnect, select, connected, address } = useWallet();
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [result, setresult] = useState({});
-  // const [contract, setContract] = useState()
+  
   const contract = tronWeb.contract(testABI, testAddress);
-  
-  
+
   console.log(window.tronWeb);
   tronWeb.setAddress(window.tronWeb.defaultAddress.base58);
-  
 
-  console.log(tronWeb.defaultAddress.base58)
+  console.log(tronWeb.defaultAddress.base58);
 
   async function store(i) {
     try {
-      // const result = await contract.store(i).send({
-      //   callValue: 0,
-      //   shouldPollResponse: true,
-      // });
-      
+
       const result = await tronWeb.transactionBuilder.triggerSmartContract(
         testAddress,
         "store(uint256)",
         { _isConstant: false },
-        [{ type: "uint256", value: 8 }],
+        [{ type: "uint256", value: 10 }]
       );
       console.log(result);
       const signedTransaction = await sign(result);
@@ -85,7 +74,6 @@ export default function Home() {
   }, [index]);
 
   useEffect(() => {
-    
     async function getContract() {
       let result = await contract.retrieve().call();
       console.log(result);
@@ -114,7 +102,6 @@ export default function Home() {
   return (
     <div className="bg-gradient-to-r from-purple-950 to-violet-600 flex items-center justify-center min-h-screen flex-col">
       <div className="slideshow">
-        
         <button className="prevButton" onClick={prevStep}>
           ◀
         </button>

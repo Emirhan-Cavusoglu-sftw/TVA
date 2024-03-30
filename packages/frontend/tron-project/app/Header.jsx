@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -45,7 +45,9 @@ export default function Header() {
           <nav className="flex space-x-24">
             {links.map((link) => (
               <Link href={link.path} key={link.path}>
-                <div className={pathname === link.path}>{link.name}</div>
+                <div className={`cursor-pointer ${pathname === link.path ? "text-blue-500" : "text-gray-800"} hover:text-blue-700`} key={link.path}>
+                  {link.name}
+                </div>
               </Link>
             ))}
           </nav>

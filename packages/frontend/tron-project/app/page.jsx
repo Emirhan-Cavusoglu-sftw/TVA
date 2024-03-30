@@ -100,7 +100,7 @@ export default function Home() {
   }
 
   return (
-    <div className="bg-gradient-to-r from-purple-950 to-violet-600 flex items-center justify-center min-h-screen flex-col">
+    <div className="bg-gradient-to-r from-cyan-400 to-gray-700  flex items-center justify-center min-h-screen flex-col">
       <div className="slideshow">
         <button className="prevButton" onClick={prevStep}>
           ◀

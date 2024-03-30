@@ -6,7 +6,7 @@ import { useScroll } from "framer-motion";
 const AboutUs = () => {
   const { scrollYProgress } = useScroll();
   return (
-    <div className="bg-gradient-to-r from-purple-950 to-violet-600 min-h-screen flex justify-center items-center ">
+    <div className="bg-gradient-to-r from-cyan-400 to-gray-700 min-h-screen flex justify-center items-center ">
       <motion.div
         className="text-white max-w-4xl px-6 py-12 mt-24 "
         

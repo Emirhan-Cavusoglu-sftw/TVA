@@ -44,20 +44,37 @@ export default function Header() {
         sm:top-6 sm:h-[3.25rem] sm:w-[82rem] sm:rounded-full"
         initial={{ y: -100, x: "-50%", opacity: 0 }}
         animate={{ y: 0, x: "-50%", opacity: 1 }}
-        transition={{ duration: 0.5 ,delay:0.4}}
+        transition={{ duration: 0.5, delay: 0.4 }}
       >
         <div className="flex justify-around items-center p-4">
           <nav className="flex space-x-24">
             {links.map((link) => (
               <Link href={link.path} key={link.path}>
-                <div
-                  className={`cursor-pointer ${
-                    pathname === link.path ? "text-blue-500" : "text-gray-800"
-                  } hover:text-blue-700`}
-                  key={link.path}
-                >
-                  {link.name}
-                </div>
+                {/* {pathname === link.path ? (
+                  <div
+                    className={`cursor-pointer 
+                        "text-blue-500"
+                     hover:text-blue-700`}
+                    key={link.path}
+                  >
+                    {link.name}
+                  </div>
+                ) : (
+                  <div
+                    className={`cursor-pointer 
+                    "text-blue-500"
+                    hover:text-blue-700`}
+                    key={link.path}
+                  >
+                    {link.name}
+                    <motion.div
+                      className="underline"
+                      layoutId="underline"
+                    ></motion.div>
+                  </div>
+                )} */}
+                {link.name}
+                {pathname === link.path ?(<motion.div className="underline" layoutId="underline"></motion.div>):null}
               </Link>
             ))}
           </nav>

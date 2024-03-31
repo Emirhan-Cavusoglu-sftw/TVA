@@ -100,7 +100,7 @@ export default function Home() {
   }
 
   return (
-    <div className="bg-gradient-to-r from-cyan-400 to-gray-700  flex items-center justify-center min-h-screen flex-col">
+    <div className="bg-gradient-to-r from-cyan-400 to-gray-700  flex items-center justify-center min-h-[250vh] flex-col">
       <div className="slideshow">
         <button className="prevButton" onClick={prevStep}>
           ◀
@@ -111,7 +111,7 @@ export default function Home() {
       </div>
 
       <motion.div
-        className="text-white h-10"
+        className="text-white h-10 mt-2"
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}

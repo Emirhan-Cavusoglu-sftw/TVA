@@ -44,6 +44,7 @@ export default function Header() {
         sm:top-6 sm:h-[3.25rem] sm:w-[82rem] sm:rounded-full"
         initial={{ y: -100, x: "-50%", opacity: 0 }}
         animate={{ y: 0, x: "-50%", opacity: 1 }}
+        transition={{ duration: 0.5 ,delay:0.4}}
       >
         <div className="flex justify-around items-center p-4">
           <nav className="flex space-x-24">

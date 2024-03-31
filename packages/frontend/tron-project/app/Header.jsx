@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -26,6 +26,10 @@ const links = [
     name: "Create Design Stamp",
     path: "/CreateDesignStamp",
   },
+  {
+    name: "Profile",
+    path: "/Profile",
+  },
 ];
 
 export default function Header() {
@@ -37,15 +41,20 @@ export default function Header() {
         className="flex justify-center fixed top-0 left-1/2 h-[4.5rem]  -translate-x-1/2 w-full
         rounded-none border border-white border-opacity-40 bg-white
         bg-opacity-80 shadow-lg shadow-black/[0.03] backdrop-blur-[0.5rem]
-        sm:top-6 sm:h-[3.25rem] sm:w-[72rem] sm:rounded-full"
+        sm:top-6 sm:h-[3.25rem] sm:w-[82rem] sm:rounded-full"
         initial={{ y: -100, x: "-50%", opacity: 0 }}
         animate={{ y: 0, x: "-50%", opacity: 1 }}
       >
-        <div className=" flex justify-around items-center p-4">
+        <div className="flex justify-around items-center p-4">
           <nav className="flex space-x-24">
             {links.map((link) => (
               <Link href={link.path} key={link.path}>
-                <div className={`cursor-pointer ${pathname === link.path ? "text-blue-500" : "text-gray-800"} hover:text-blue-700`} key={link.path}>
+                <div
+                  className={`cursor-pointer ${
+                    pathname === link.path ? "text-blue-500" : "text-gray-800"
+                  } hover:text-blue-700`}
+                  key={link.path}
+                >
                   {link.name}
                 </div>
               </Link>
@@ -53,6 +62,33 @@ export default function Header() {
           </nav>
         </div>
         <WalletComponent />
+      </motion.div>
+
+      <motion.div
+        className="flex justify-center fixed top-[5rem] left-1/2 -translate-x-1/2 w-full"
+        initial={{ y: -100, x: "-50%", opacity: 0 }}
+        animate={{ y: 0, x: "-50%", opacity: 1 }}
+      >
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Search..."
+            className="pl-10 pr-4 py-2 w-96 border border-gray-300 rounded-full focus:outline-none focus:border-gray-800 bg-white
+      bg-opacity-80"
+          />
+          <svg
+            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-5 w-5"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <circle cx="10.5" cy="10.5" r="7.5" />
+            <line x1="21" y1="21" x2="15.8" y2="15.8" />
+          </svg>
+        </div>
       </motion.div>
     </header>
   );

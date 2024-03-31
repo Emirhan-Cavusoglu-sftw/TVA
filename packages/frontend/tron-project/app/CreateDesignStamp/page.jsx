@@ -1,22 +1,19 @@
 import React from "react";
 
 const CreateDesignStamp = () => {
-
-
-
   return (
     <div className="bg-gradient-to-r from-cyan-400 to-gray-700 min-h-screen px-4 pt-44">
       <div className="flex flex-col items-center">
         <form className="border-r-8 border-b-8 border-black w-full bg-gradient-to-r from-amber-600 to-amber-400 shadow-md rounded-lg px-8 pt-6 pb-8 mx-auto max-w-md">
           <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-900 to-violet-500 bg-clip-text text-transparent mb-8 text-center">
-            Upload Your NFT to the Marketplace
+            Create Your Design Stamp
           </h2>
           <div className="mb-4">
             <label
               className="block text-white text-transparent text-sm mb-2"
               htmlFor="name"
             >
-              NFT Name
+              Designer Name
             </label>
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 bg-gray-200 leading-tight focus:outline-none focus:shadow-outline"
@@ -33,7 +30,7 @@ const CreateDesignStamp = () => {
               className="block bg-clip-text text-white text-transparent text-sm mb-2"
               htmlFor="description"
             >
-              NFT Description
+              Design Name
             </label>
             <textarea
               className="shadow appearance-none border rounded w-full py-2 px-3 bg-gray-200 leading-tight focus:outline-none focus:shadow-outline"
@@ -44,23 +41,25 @@ const CreateDesignStamp = () => {
               // }
             />
           </div>
-          <div className="mb-4">
+          <div class="mb-4">
             <label
-              className="block bg-clip-text text-white text-transparent text-sm mb-2"
-              htmlFor="price"
+              class="block bg-clip-text text-white text-transparent text-sm mb-2"
+              for="date"
             >
-              Price (in ETH)
+              Design Creation Date
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              type="number"
-              placeholder="Min 0.01 ETH"
-              step="0.01"
+              class="shadow appearance-none border rounded w-full py-2 px-3 bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              type="date"
+              id="date"
+              min="2000-01-01"
+              max="2500-12-31"
               // onChange={(e) =>
-              //   updateFormParams({ ...formParams, price: e.target.value })
+              //   updateFormParams({ ...formParams, date: e.target.value })
               // }
             />
           </div>
+
           <div className="mb-4">
             <label
               className="block text-white text-transparent text-sm mb-2"
@@ -72,7 +71,9 @@ const CreateDesignStamp = () => {
               <input type="file" />
             </div>
           </div>
-          <div className="text-red-500 text-xs mb-4 text-center">butona bas</div>
+          <div className="text-red-500 text-xs mb-4 text-center">
+            butona bas
+          </div>
           {/* {enableButton ? (
             <button
               className="w-full bg-gradient-to-r from-purple-900 to-violet-400 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-2"

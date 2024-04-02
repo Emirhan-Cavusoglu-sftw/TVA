@@ -74,7 +74,7 @@ export default function Header() {
                   </div>
                 )} */}
                 {link.name}
-                {pathname === link.path ?(<motion.div className="underline" layoutId="underline"></motion.div>):null}
+                {/* {pathname === link.path ?(<motion.div className="underline" layoutId="underline"></motion.div>):null} */}
               </Link>
             ))}
           </nav>

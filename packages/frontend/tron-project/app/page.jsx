@@ -12,6 +12,42 @@ const tronWeb = new TronWeb({
   headers: {},
 });
 
+const images = [
+  "./ss1.jpg",
+  "./ss2.jpg",
+  "./ss3.jpg",
+  "./ss4.jpg",
+];
+
+const variants = {
+  initial: (direction) => {
+    return {
+      x: direction > 0 ? 1000 : -1000,
+      opacity: 0,
+    };
+  },
+  animate: {
+    x: 0,
+    opacity: 1,
+
+    transition: {
+      x: { type: "spring", stiffness: 300, damping: 30 },
+      opacity: { duration: 0.2 },
+    },
+  },
+  exit: (direction) => {
+    return {
+      x: direction > 0 ? -1000 : 1000,
+      opacity: 0,
+
+      transition: {
+        x: { type: "spring", stiffness: 300, damping: 30 },
+        opacity: { duration: 0.2 },
+      },
+    };
+  },
+};
+
 export const sign = async (transaction) => {
   try {
     const tronweb = window.tronWeb;
@@ -67,10 +103,10 @@ export default function Home() {
   }
 
   useEffect(() => {
-    // const interval = setInterval(() => {
-    //   nextStep();
-    // }, 5000);
-    // return () => clearInterval(interval);
+    const interval = setInterval(() => {
+      nextStep();
+    }, 5000);
+    return () => clearInterval(interval);
   }, [index]);
 
   useEffect(() => {
@@ -100,8 +136,21 @@ export default function Home() {
   }
 
   return (
-    <div className="bg-gradient-to-r from-cyan-400 to-gray-700  flex items-center justify-center min-h-[250vh] flex-col">
+    <div className="flex items-center justify-center  flex-col mt-44">
       <div className="slideshow">
+        <AnimatePresence initial={false} custom={direction}>
+          <motion.img
+            variants={variants}
+            animate="animate"
+            initial="initial"
+            exit="exit"
+            src={images[index]}
+            alt="slides"
+            className="slides"
+            key={images[index]}
+            custom={direction}
+          />
+        </AnimatePresence>
         <button className="prevButton" onClick={prevStep}>
           ◀
         </button>
@@ -110,7 +159,7 @@ export default function Home() {
         </button>
       </div>
 
-      <motion.div
+      {/* <motion.div
         className="text-white h-10 mt-2"
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -122,9 +171,9 @@ export default function Home() {
           fuga repudiandae tenetur reprehenderit? Ducimus ullam vel, aut
           deleniti magnam suscipit.
         </p>
-      </motion.div>
+      </motion.div> */}
 
-      <button onClick={() => store(3)}>ONCLICK</button>
+      {/* <button onClick={() => store(3)}>ONCLICK</button> */}
     </div>
   );
 }

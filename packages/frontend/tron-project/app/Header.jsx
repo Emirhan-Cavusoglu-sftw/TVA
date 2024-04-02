@@ -19,7 +19,7 @@ const links = [
     path: "/ContactUs",
   },
   {
-    name: "How It Is Work?",
+    name: "How It Works?",
     path: "/HowItIsWork",
   },
   {

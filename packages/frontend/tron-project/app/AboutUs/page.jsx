@@ -2,6 +2,7 @@
 import React, { useRef } from "react";
 import { motion } from "framer-motion";
 import { useScroll } from "framer-motion";
+import Section from "../Components/Section";
 
 const svgVariants = {
   hidden: { rotate: -180 },
@@ -31,7 +32,7 @@ const AboutUs = () => {
     offset: ["start ", "end end"],
   });
   return (
-    <div className="bg-gradient-to-r from-cyan-400 to-gray-700 min-h-screen flex flex-col justify-center items-center ">
+    <div className="bg-gradient-to-r from-cyan-400 to-gray-700 flex flex-col justify-center min-h-[300vh] items-center ">
       <motion.svg
         width="100px"
         className="mt-40"
@@ -119,6 +120,7 @@ const AboutUs = () => {
           </button>
         </div>
       </motion.div>
+      <Section children={"1dsdfsdf"} className={"text-white text-2xl  mr-[1040px] mt-96"}>RESPECT TE TİMELİNE BRUHHH</Section>
     </div>
   );
 };

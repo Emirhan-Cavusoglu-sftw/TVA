@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "./Header";
+import { Header } from "./Header";
 import { WalletProvider } from "@tronweb3/tronwallet-adapter-react-hooks";
 
 const inter = Inter({ subsets: ["latin"] });

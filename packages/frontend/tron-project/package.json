@@ -2,7 +2,6 @@
   "name": "tron-project",
   "version": "0.1.0",
   "private": true,
-  
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,6 +10,8 @@
   },
   "dependencies": {
     "@noble/secp256k1": "1.7.1",
+    "@react-pdf/renderer": "^3.4.2",
+    "@tanstack/react-query": "^5.29.2",
     "@tronweb3/tronwallet-abstract-adapter": "^1.1.6",
     "@tronweb3/tronwallet-adapter-react-hooks": "^1.1.7",
     "@tronweb3/tronwallet-adapter-react-ui": "^1.1.8",
@@ -18,20 +19,33 @@
     "@tronweb3/tronwallet-adapters": "^1.2.0",
     "@tronweb3/walletconnect-tron": "^2.0.0",
     "@walletconnect/sign-client": "^2.11.2",
+    "clsx": "^2.1.0",
     "express": "^4.18.3",
+    "form-data": "^4.0.0",
     "framer-motion": "^11.0.13",
     "http-proxy-middleware": "^2.0.6",
+    "ipfs-http-client": "^60.0.1",
     "next": "14.1.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
+    "react-intersection-observer": "^9.8.2",
+    "react-router-dom": "^6.22.3",
+    "simplex-noise": "^4.0.1",
+    "tailwind-merge": "^2.2.2",
     "tronweb": "^5.3.2"
   },
   "devDependencies": {
+    "@types/node": "^20.12.7",
+    "@types/react": "^18.2.79",
+    "@types/react-dom": "^18",
+    "@types/react-router-dom": "^5.3.3",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.1.3",
     "postcss": "^8",
-    "tailwindcss": "^3.3.0"
+    "tailwindcss": "^3.3.0",
+    "tsx": "^3.13.0",
+    "typescript": "^5"
   }
 }

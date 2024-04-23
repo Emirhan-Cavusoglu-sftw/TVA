@@ -1,6 +1,6 @@
 "use client";
 import React, { use, useEffect, useState } from "react";
-import NFTCard from "../components/NFTCard";
+import TSDCard from "../components/TSDCard";
 import Image from "next/image";
 // import TSDInfoCard from "../components/TSDInfoCard";
 // import {
@@ -107,7 +107,7 @@ const Profile = () => {
         <div className="flex flex-row bg-orange-400 h-[100px] w-[880px] ml-12 justify-center items-center text-center rounded-2xl">
           <h1 className="font-bold text-2xl">
             Your Smart Account:{" "}
-            {accountAddress ? accountAddress : "Account Address"}
+            {/* {accountAddress ? accountAddress : "Account Address"} */}
           </h1>
           <svg
             width="60px"
@@ -159,29 +159,29 @@ const Profile = () => {
         />
 
         <div className="absolute" style={{ top: "-30%", left: "20%" }}>
-          <NFTCard />
+          <TSDCard />
         </div>
         <div className="absolute" style={{ top: "-10%", right: "1%" }}>
-          <NFTCard />
+          <TSDCard />
         </div>
         <div className="absolute" style={{ top: "-10%", right: "40%" }}>
-          <NFTCard />
+          <TSDCard />
         </div>
         <div className="absolute" style={{ bottom: "-15%", left: "28%" }}>
-          <NFTCard />
+          <TSDCard />
         </div>
         <div className="absolute" style={{ bottom: "-15%", right: "15%" }}>
-          <NFTCard />
+          <TSDCard />
         </div>
         <div className="absolute" style={{ bottom: "-20%", right: "35%" }}>
-          <NFTCard />
+          <TSDCard />
         </div>
       </div>
 
       <div className="space-y-24">
         <div className="flex justify-center items-center"><button
           className="flex justify-center  h-[3.5rem] w-64 rounded-xl bg-gray-200 bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4"
-          onClick={() => getTSD()}
+          // onClick={() => getTSD()}
         >
           Show Your TSDs
         </button></div>
@@ -195,7 +195,7 @@ const Profile = () => {
         <div className="flex justify-center flex-col items-center space-y-5 mr-12 ">
           <h1 className="font-bold text-4xl ml-12 mb-14">Registrations</h1>
           <div className="flex justify-center flex-wrap space-x-10 ml-12 pb-10">
-            {TSDcards.map((tsd, index) => {
+            {/* {TSDcards.map((tsd, index) => {
               return (
                 <TSDInfoCard
                   key={index}
@@ -204,7 +204,7 @@ const Profile = () => {
                   proofName={tsd.proofName}
                 />
               );
-            })}
+            })} */}
           </div>
         </div>
       </div>

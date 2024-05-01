@@ -64,11 +64,11 @@ export default function Home() {
   // const { user, primaryWallet } = useDynamicContext();
   const [result,setresult] = useState();
   const [hasAccount, setHasAccount] =  useState<boolean>();
-  declare const tronWeb: any;
+  
 
   const contract = tronWeb.contract(testABI, testAddress);
   
-  tronWeb.setAddress(window.tronWeb.defaultAddress.base58);
+  // tronWeb.setAddress(window.tronWeb.defaultAddress.base58);
   useEffect(() => {
     async function getContract() {
       let result = await contract.retrieve().call();

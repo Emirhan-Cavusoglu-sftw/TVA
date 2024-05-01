@@ -37,7 +37,7 @@ const tronWeb = new TronWeb({
 // import { Hex, parseEther } from "viem";
 // import { ENTRYPOINT_ADDRESS_V07 } from "permissionless";
 // import { entryPointABI } from "./utils/constants";
-import { get } from "http";
+
 
 const sign = async (transaction: { transaction: any; }) => {
   try {

@@ -41,7 +41,7 @@ const tronWeb = new TronWeb({
 
 const sign = async (transaction: { transaction: any; }) => {
   try {
-    const tronweb: any = tronWeb;
+    const tronweb: any = window.tronWeb;
     const signedTransaction = await tronweb.trx.sign(transaction.transaction);
     return signedTransaction;
   } catch (error) {
@@ -52,7 +52,7 @@ const sign = async (transaction: { transaction: any; }) => {
 
  const sendRawTransaction = async (signedTransaction: any) => {
   try {
-    const tronweb = tronWeb;
+    const tronweb = window.tronWeb;
     const result = await tronweb.trx.sendRawTransaction(signedTransaction);
     return result;
   } catch (error) {
@@ -68,7 +68,7 @@ export default function Home() {
 
   const contract = tronWeb.contract(testABI, testAddress);
   
-  // tronWeb.setAddress(window.tronWeb.defaultAddress.base58);
+  tronWeb.setAddress(window.tronWeb.defaultAddress.base58);
   useEffect(() => {
     async function getContract() {
       let result = await contract.retrieve().call();

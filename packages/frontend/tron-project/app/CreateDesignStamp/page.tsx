@@ -40,7 +40,7 @@ const tronWeb = new TronWeb({
 
 const sign = async (transaction: { transaction: any }) => {
   try {
-    const tronweb: any = tronWeb;
+    const tronweb: any = window.tronWeb;
     const signedTransaction = await tronweb.trx.sign(transaction.transaction);
     return signedTransaction;
   } catch (error) {
@@ -51,7 +51,7 @@ const sign = async (transaction: { transaction: any }) => {
 
 const sendRawTransaction = async (signedTransaction: any) => {
   try {
-    const tronweb = tronWeb;
+    const tronweb = window.tronWeb;
     const result = await tronweb.trx.sendRawTransaction(signedTransaction);
     return result;
   } catch (error) {
@@ -80,32 +80,44 @@ const CreateYourDesignStamp = () => {
 
   const contract = tronWeb.contract(tsdFactoryABI, tsdFactoryAddress);
 
-  // tronWeb.setAddress(window.tronWeb.defaultAddress.base58);
+  tronWeb.setAddress(window.tronWeb.defaultAddress.base58);
 
   // CONTRACT CALLS
-  useEffect(() => {
-    async function getContract() {
-      let result = await contract.retrieve().call();
-      console.log(result);
-    }
-    getContract();
-  }, []);
+  // useEffect(() => {
+  //   async function getContract() {
+  //     let result = await contract.retrieve().call();
+  //     console.log(result);
+  //   }
+  //   getContract();
+  // }, []);
 
   async function retrieve() {
-    let result = await contract.retrieve().call();
-    result = await tronWeb.toDecimal(result);
+    let result = await contract.tsds("0").call();
+    
     console.log(result);
   }
   async function createTSD(proofName, proofDescription, ipfsUrl) {
     try {
       const result = await tronWeb.transactionBuilder.triggerSmartContract(
-        testAddress,
+        tsdFactoryAddress,
         "createTSD(string,string,string,string)",
         { _isConstant: false },
         [
           {
-            type: "uint256",
-            value: ["EC", proofName, proofDescription, ipfsUrl],
+            type: "string",
+            value: "EC",
+          },
+          {
+            type: "string",
+            value: proofName,
+          },
+          {
+            type: "string",
+            value: proofDescription,
+          },
+          {
+            type: "string",
+            value: ipfsUrl,
           },
         ]
       );
@@ -177,7 +189,13 @@ const CreateYourDesignStamp = () => {
 
       // Upload PDF to Pinata
       const ipfsUrl = await uploadPDFToPinata(pdfBlob);
-      await createTSD(proofName, proofDescription, ipfsUrl);
+      try {
+        console.log("Creating TSD...");
+        await createTSD(proofName, proofDescription, ipfsUrl);
+      } catch (error) {
+        console.log(error);
+      }
+      console.log("TSD created successfully!");
       // Display success message
 
       setMessage("PDF uploaded to Pinata successfully!");
@@ -292,6 +310,8 @@ const CreateYourDesignStamp = () => {
             
           </div>
         </form>
+
+        <button className="h-10 w-40 bg-gray-200 rounded-lg text-center border-2 border-black font-bold" onClick={()=>retrieve()}></button>
       </div>
     </>
   );

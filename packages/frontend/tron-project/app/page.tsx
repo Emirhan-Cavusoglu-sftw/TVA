@@ -2,8 +2,18 @@
 import React, { useEffect, useRef, useState } from "react";
 import { WavyBackground } from "./components/wavy-background";
 import Image from "next/image";
+
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import testABI from "./abis/testABI.json";
+import { testAddress } from "./Utils/addresses.js";
+
+const TronWeb = require("tronweb");
+
+const tronWeb = new TronWeb({
+  fullHost: "https://nile.trongrid.io/",
+  headers: {},
+});
 // import Provider from "./components/dy-provider";
 // import {
 //   DynamicContextProvider,
@@ -28,10 +38,65 @@ import { useInView } from "react-intersection-observer";
 // import { entryPointABI } from "./utils/constants";
 import { get } from "http";
 
-export default function Home() {
-  // const { user, primaryWallet } = useDynamicContext();
-  const [hasAccount, setHasAccount] =  useState<boolean>();
+const sign = async (transaction: { transaction: any; }) => {
+  try {
+    const tronweb: any = window.tronWeb;
+    const signedTransaction = await tronweb.trx.sign(transaction.transaction);
+    return signedTransaction;
+  } catch (error) {
+    console.log(error, "signerr");
+    throw new Error(String(error));
+  }
+};
 
+ const sendRawTransaction = async (signedTransaction) => {
+  try {
+    const tronweb = window.tronWeb;
+    const result = await tronweb.trx.sendRawTransaction(signedTransaction);
+    return result;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+export default function Home() {
+
+  // const { user, primaryWallet } = useDynamicContext();
+  const [result,setresult] = useState();
+  const [hasAccount, setHasAccount] =  useState<boolean>();
+  const contract = tronWeb.contract(testABI, testAddress);
+  tronWeb.setAddress(window.tronWeb.defaultAddress.base58);
+  useEffect(() => {
+    async function getContract() {
+      let result = await contract.retrieve().call();
+      console.log(result);
+    }
+    getContract();
+  }, []);
+
+  async function retrieve() {
+    let result = await contract.retrieve().call();
+    result = await tronWeb.toDecimal(result);
+    console.log(result);
+  }
+  async function store(i) {
+    try {
+
+      const result = await tronWeb.transactionBuilder.triggerSmartContract(
+        testAddress,
+        "store(uint256)",
+        { _isConstant: false },
+        [{ type: "uint256", value: i }]
+      );
+      console.log(result);
+      const signedTransaction = await sign(result);
+      const transaction = await sendRawTransaction(signedTransaction);
+      console.log(transaction);
+    } catch (error) {
+      console.log(error);
+    }
+
+    setresult(result);
+  }
   const { ref: ref1, inView: inView1 } = useInView({
     triggerOnce: false,
     threshold: 0.05,
@@ -155,7 +220,7 @@ export default function Home() {
 
   //   console.log(`UserOperation included: ${txHash}`);
   // };
-
+  
   return (
     <>
       <WavyBackground className="pb-40">
@@ -165,8 +230,9 @@ export default function Home() {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.1, ease: "easeInOut" }}
         >
-          WitnessBase
-        </motion.p>
+          TimeWeave       
+          
+           </motion.p>
         <motion.p
           className="text-base md:text-lg mt-4 text-black font-normal inter-var text-center"
           initial={{ y: -100, opacity: 0 }}
@@ -175,7 +241,15 @@ export default function Home() {
         >
           WitnessBase: Securing unregistered product designs and enhancing user
           experience with decentralized wallets.
+          
         </motion.p>
+        <div className="flex flex-col">
+
+        <button onClick={()=>store(10)}>BASSS</button>
+       
+        <button onClick={()=>retrieve()}>RESULT</button>
+        </div>
+        
          {/* {!hasAccount && (<div className=" h-8 flex flex-row space-x-6 justify-center items-center text-center mt-4">
           {primaryWallet?.address}
           <button

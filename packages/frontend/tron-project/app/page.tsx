@@ -1,4 +1,5 @@
 "use client";
+//@ts-nocheck
 import React, { useEffect, useRef, useState } from "react";
 import { WavyBackground } from "./components/wavy-background";
 import Image from "next/image";
@@ -40,7 +41,7 @@ import { get } from "http";
 
 const sign = async (transaction: { transaction: any; }) => {
   try {
-    const tronweb: any = window.tronWeb;
+    const tronweb: any = tronWeb;
     const signedTransaction = await tronweb.trx.sign(transaction.transaction);
     return signedTransaction;
   } catch (error) {
@@ -49,9 +50,9 @@ const sign = async (transaction: { transaction: any; }) => {
   }
 };
 
- const sendRawTransaction = async (signedTransaction) => {
+ const sendRawTransaction = async (signedTransaction: any) => {
   try {
-    const tronweb = window.tronWeb;
+    const tronweb = tronWeb;
     const result = await tronweb.trx.sendRawTransaction(signedTransaction);
     return result;
   } catch (error) {
@@ -63,7 +64,10 @@ export default function Home() {
   // const { user, primaryWallet } = useDynamicContext();
   const [result,setresult] = useState();
   const [hasAccount, setHasAccount] =  useState<boolean>();
+  declare const tronWeb: any;
+
   const contract = tronWeb.contract(testABI, testAddress);
+  
   tronWeb.setAddress(window.tronWeb.defaultAddress.base58);
   useEffect(() => {
     async function getContract() {
@@ -231,7 +235,7 @@ export default function Home() {
           transition={{ duration: 0.5, delay: 0.1, ease: "easeInOut" }}
         >
           TimeWeave       
-          
+
            </motion.p>
         <motion.p
           className="text-base md:text-lg mt-4 text-black font-normal inter-var text-center"

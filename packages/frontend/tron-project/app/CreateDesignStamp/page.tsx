@@ -96,13 +96,13 @@ const CreateYourDesignStamp = () => {
     result = await tronWeb.toDecimal(result);
     console.log(result);
   }
-  async function createTSD(i) {
+  async function createTSD(proofName, proofDescription,ipfsUrl) {
     try {
       const result = await tronWeb.transactionBuilder.triggerSmartContract(
         testAddress,
-        "store(uint256)",
+        "createTSD(string,string,string,string)",
         { _isConstant: false },
-        [{ type: "uint256", value: i }]
+        [{ type: "uint256", value: ["EC",proofName,proofDescription,ipfsUrl] }]
       );
       console.log(result);
       const signedTransaction = await sign(result);
@@ -172,7 +172,7 @@ const CreateYourDesignStamp = () => {
 
       // Upload PDF to Pinata
       const ipfsUrl = await uploadPDFToPinata(pdfBlob);
-
+      await createTSD(proofName, proofDescription,ipfsUrl);
       // Display success message
 
       setMessage("PDF uploaded to Pinata successfully!");

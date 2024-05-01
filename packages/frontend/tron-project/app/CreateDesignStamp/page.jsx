@@ -232,11 +232,10 @@ const CreateYourDesignStamp = () => {
 
   return (
     <>
-      <form className="flex flex-row" > 
-      {/* <form className="flex flex-row" onSubmit={handleSubmit}> */}
-        <div className="flex items-center mt-24 ml-10">
+      <div className=" flex justify-center items-center text-center mt-24">
+        <form className="flex flex-col justify-center items-center text-center w-[1000px] h-[750px] bg-blue-300 rounded-3xl space-y-4">
           <label htmlFor="file" className="cursor-pointer">
-            <div className="border-2 border-black w-[700px] h-[700px] flex items-center justify-center flex-col space-y-5">
+            <div className="flex w-[700px] h-[300px] flex-col border-2 border-black space-y-5 justify-center rounded-3xl">
               {/* {previews.map((preview, index) => (
                 <div
                   key={index}
@@ -245,7 +244,7 @@ const CreateYourDesignStamp = () => {
                   <img
                     src={preview}
                     alt={`Preview-${index}`}
-                    className="w-[500px] h-80"
+                    className="w-[300px] h-80"
                   />
                 </div>
               ))} */}
@@ -264,66 +263,44 @@ const CreateYourDesignStamp = () => {
             // onChange={handleFileChange}
             multiple // Allow multiple file selection
           />
-        </div>
+          <div className="flex flex-col justify-center items-center space-y-4 w-96">
+            <label
+              className="block text-black font-bold  text-xl"
+              htmlFor="name"
+            >
+              Proof Name
+            </label>
+            <input
+              className="shadow appearance-none w-96 h-12 rounded-2xl border-2 border-black bg-gray-200 leading-tight focus:outline-none focus:shadow-outline"
+              id="name"
+              type="text"
+              placeholder=""
+              // value={proofName}
+              // onChange={handleNameChange}
+            />
 
-        <div className="flex flex-col justify-center items-center ml-44 space-y-4 w-96">
-          <label className="block text-black font-bold  text-xl" htmlFor="name">
-            Proof Name
-          </label>
-          <input
-            className="shadow appearance-none w-96 border border-black border-l-4 border-b-4 rounded py-2 px-3 bg-gray-200 leading-tight focus:outline-none focus:shadow-outline"
-            id="name"
-            type="text"
-            placeholder=""
-            // value={proofName}
-            // onChange={handleNameChange}
-          />
-
-          <label
-            className="block text-black font-bold text-xl "
-            htmlFor="description"
-          >
-            Proof Description
-          </label>
-          <textarea
-            className="shadow appearance-none border border-black border-l-4 border-b-4 rounded w-full h-44 py-2 px-3 bg-gray-200 leading-tight focus:outline-none focus:shadow-outline"
-            id="description"
-            // value={proofDescription}
-            // onChange={handleDescriptionChange}
-          ></textarea>
-          <button
-            className="h-10 w-40 bg-gray-200 rounded-lg text-center border border-black border-l-4 border-b-4 font-bold"
-            // disabled={!enableButton || isLoading} // Disable the button if the form is being submitted
-            type="submit"
-          >
-            {/* {isLoading ? "Loading..." : "Submit"} */}
-          </button>
-        </div>
-      </form>
-      <div className="flex items-center justify-center text-center m-4">
-        {/* {attestCompleted && (
-          <Link
-            href={`https://gnosis-chiado.blockscout.com/tx/${attestTxHash}?tab=internal`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <button className="flex justify-center mt-6 h-[3.5rem] w-32 rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4">
-              View Attestation
+            <label
+              className="block text-black font-bold text-xl "
+              htmlFor="description"
+            >
+              Proof Description
+            </label>
+            <textarea
+              className="shadow appearance-none  rounded-2xl w-full h-44 border-2 border-black bg-gray-200 leading-tight focus:outline-none focus:shadow-outline"
+              id="description"
+              // value={proofDescription}
+              // onChange={handleDescriptionChange}
+            ></textarea>
+            <button
+              className="h-10 w-40 bg-gray-200 rounded-lg text-center border-2 border-black font-bold"
+              // disabled={!enableButton || isLoading} // Disable the button if the form is being submitted
+              type="submit"
+            >
+              {/* {isLoading ? "Loading..." : "Submit"} */}
             </button>
-          </Link>
-        )} */}
+          </div>
+        </form>
       </div>
-      <div className="flex justify-center">
-        {/* {ipfsUrl && (
-          <Link href={ipfsUrl} download target="_blank">
-            <button className="flex justify-center mt-6 h-[3.5rem] w-32 rounded-xl bg-gray-200 bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4">
-              Download PDF from IPFS
-            </button>
-          </Link>
-        )} */}
-      </div>
-
-      
     </>
   );
 };

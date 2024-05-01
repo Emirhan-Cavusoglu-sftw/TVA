@@ -1,7 +1,7 @@
 "use client";
 //@ts-nocheck
 import React, { useEffect, useState } from "react";
-// import { uploadFileToIPFS } from "../utils/pinata";
+import { uploadFileToIPFS } from "../Utils/pinata";
 import MyDocument from "../components/pdfviewer.jsx";
 // import dynamic from "next/dynamic";
 import { pdf } from "@react-pdf/renderer";
@@ -96,13 +96,18 @@ const CreateYourDesignStamp = () => {
     result = await tronWeb.toDecimal(result);
     console.log(result);
   }
-  async function createTSD(proofName, proofDescription,ipfsUrl) {
+  async function createTSD(proofName, proofDescription, ipfsUrl) {
     try {
       const result = await tronWeb.transactionBuilder.triggerSmartContract(
         testAddress,
         "createTSD(string,string,string,string)",
         { _isConstant: false },
-        [{ type: "uint256", value: ["EC",proofName,proofDescription,ipfsUrl] }]
+        [
+          {
+            type: "uint256",
+            value: ["EC", proofName, proofDescription, ipfsUrl],
+          },
+        ]
       );
       console.log(result);
       const signedTransaction = await sign(result);
@@ -172,7 +177,7 @@ const CreateYourDesignStamp = () => {
 
       // Upload PDF to Pinata
       const ipfsUrl = await uploadPDFToPinata(pdfBlob);
-      await createTSD(proofName, proofDescription,ipfsUrl);
+      await createTSD(proofName, proofDescription, ipfsUrl);
       // Display success message
 
       setMessage("PDF uploaded to Pinata successfully!");
@@ -197,15 +202,16 @@ const CreateYourDesignStamp = () => {
   //   // console.log({ipfsUrl})
   //   console.log(url);
   // };
-  
+
   const uploadPDFToPinata = async (pdfBlob): Promise<string | undefined> => {
     try {
-      
       const pdfUploadResponse = await uploadFileToIPFS(pdfBlob);
-      console.log("PDF uploaded to Pinata:", (pdfUploadResponse as any).pinataURL);
+      console.log(
+        "PDF uploaded to Pinata:",
+        (pdfUploadResponse as any).pinataURL
+      );
       setIpfsUrl((pdfUploadResponse as any).pinataURL);
       return (pdfUploadResponse as any).pinataURL;
-      
     } catch (error) {
       console.error("Error uploading PDF to Pinata:", error);
       // Hata durumunda uygun bir mesaj gösterebilirsiniz.
@@ -215,10 +221,13 @@ const CreateYourDesignStamp = () => {
   return (
     <>
       <div className=" flex justify-center items-center text-center mt-24">
-        <form className="flex flex-col justify-center items-center text-center w-[1000px] h-[750px] bg-blue-300 rounded-3xl space-y-4">
+        <form
+          className="flex flex-col justify-center items-center text-center w-[1000px] h-[750px] bg-blue-300 rounded-3xl space-y-4"
+          onSubmit={handleSubmit}
+        >
           <label htmlFor="file" className="cursor-pointer">
             <div className="flex w-[700px] h-[300px] flex-col border-2 border-black space-y-5 justify-center rounded-3xl">
-              {/* {previews.map((preview, index) => (
+              {previews.map((preview, index) => (
                 <div
                   key={index}
                   className="w-full h-80 flex items-center justify-center"
@@ -229,7 +238,7 @@ const CreateYourDesignStamp = () => {
                     className="w-[300px] h-80"
                   />
                 </div>
-              ))} */}
+              ))}
               <h1 className="font-bold">Upload Your Proof</h1>
               <h1 className="font-bold">
                 Drag and Drop or Choose your Image(s)
@@ -242,7 +251,7 @@ const CreateYourDesignStamp = () => {
             type="file"
             accept="image/*" // Accept only images
             className="hidden"
-            // onChange={handleFileChange}
+            onChange={handleFileChange}
             multiple // Allow multiple file selection
           />
           <div className="flex flex-col justify-center items-center space-y-4 w-96">
@@ -257,8 +266,8 @@ const CreateYourDesignStamp = () => {
               id="name"
               type="text"
               placeholder=""
-              // value={proofName}
-              // onChange={handleNameChange}
+              value={proofName}
+              onChange={handleNameChange}
             />
 
             <label
@@ -270,16 +279,17 @@ const CreateYourDesignStamp = () => {
             <textarea
               className="shadow appearance-none  rounded-2xl w-full h-44 border-2 border-black bg-gray-200 leading-tight focus:outline-none focus:shadow-outline"
               id="description"
-              // value={proofDescription}
-              // onChange={handleDescriptionChange}
+              value={proofDescription}
+              onChange={handleDescriptionChange}
             ></textarea>
             <button
               className="h-10 w-40 bg-gray-200 rounded-lg text-center border-2 border-black font-bold"
-              // disabled={!enableButton || isLoading} // Disable the button if the form is being submitted
+              disabled={!enableButton || isLoading} // Disable the button if the form is being submitted
               type="submit"
             >
-              {/* {isLoading ? "Loading..." : "Submit"} */}
+              {isLoading ? "Loading..." : "Submit"}
             </button>
+            
           </div>
         </form>
       </div>
@@ -288,7 +298,3 @@ const CreateYourDesignStamp = () => {
 };
 
 export default CreateYourDesignStamp;
-function uploadFileToIPFS(pdfBlob: any) {
-  throw new Error("Function not implemented.");
-}
-

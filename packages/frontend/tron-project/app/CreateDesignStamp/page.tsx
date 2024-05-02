@@ -82,7 +82,15 @@ const CreateYourDesignStamp = () => {
 
   // const contract = tronWeb.contract(tsdFactoryABI, tsdFactoryAddress);
   // @ts-ignore
-  // tronWeb.setAddress(window.tronWeb.defaultAddress.base58);
+  useEffect(() => {
+    if(window.tronWeb) {
+      console.log(window.tronWeb.defaultAddress.base58);
+      const tronWeb = window.tronWeb;
+      tronWeb.setAddress(window.tronWeb.defaultAddress.base58);
+    }else {
+      console.log("no tronweb");
+    }
+  }, []);
 
   // CONTRACT CALLS
   // useEffect(() => {

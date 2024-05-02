@@ -74,6 +74,16 @@ export default function Home() {
   
 
   const contract = tronWeb.contract(testABI, testAddress);
+
+  useEffect(() => {
+    if(window.tronWeb) {
+      console.log(window.tronWeb.defaultAddress.base58);
+      const tronWeb = window.tronWeb;
+      tronWeb.setAddress(window.tronWeb.defaultAddress.base58);
+    }else {
+      console.log("no tronweb");
+    }
+  }, []);
   
   // tronWeb.setAddress(window.tronWeb.defaultAddress.base58);
   useEffect(() => {

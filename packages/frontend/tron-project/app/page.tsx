@@ -75,7 +75,7 @@ export default function Home() {
 
   const contract = tronWeb.contract(testABI, testAddress);
   
-  tronWeb.setAddress(window.tronWeb.defaultAddress.base58);
+  // tronWeb.setAddress(window.tronWeb.defaultAddress.base58);
   useEffect(() => {
     async function getContract() {
       let result = await contract.retrieve().call();
@@ -154,18 +154,18 @@ export default function Home() {
     }
   }, [mainControls3, inView3]);
 
-  useEffect(() => {
-    const fetchAccountAddress = async () => {
-      const address = primaryWallet?.address;
-      console.log(address);
-      if (address) {
-        const userHasAccount = await factoryContract.read.hasAccount([address]);
-        setHasAccount(userHasAccount as boolean);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchAccountAddress = async () => {
+  //     const address = primaryWallet?.address;
+  //     console.log(address);
+  //     if (address) {
+  //       const userHasAccount = await factoryContract.read.hasAccount([address]);
+  //       setHasAccount(userHasAccount as boolean);
+  //     }
+  //   };
 
-    fetchAccountAddress();
-  }, [primaryWallet]);
+  //   fetchAccountAddress();
+  // }, [primaryWallet]);
 
   const consoleHasAccount = async () => {
     console.log(hasAccount);

@@ -279,7 +279,7 @@ export default function Home() {
        
         <button onClick={()=>retrieve()}>RESULT</button>
         </div>
-        {/* <DynamicWidget/> */}
+       
          {/* {!hasAccount && (<div className=" h-8 flex flex-row space-x-6 justify-center items-center text-center mt-4">
           {primaryWallet?.address}
           <button

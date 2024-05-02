@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import { DynamicWidget } from "@dynamic-labs/sdk-react-core";
 // import WalletComponent from "./components/WalletComponent";
 
 
@@ -125,6 +126,7 @@ export const Header = () => {
             Profile
           </motion.button>
         </Link>
+        <DynamicWidget/>
       </div>
     </header>
   );

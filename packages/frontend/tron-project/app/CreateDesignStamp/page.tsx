@@ -1,5 +1,5 @@
-"use client";
 //@ts-nocheck
+"use client";
 import React, { useEffect, useState } from "react";
 import { uploadFileToIPFS } from "../Utils/pinata";
 import MyDocument from "../components/pdfviewer.jsx";
@@ -40,6 +40,7 @@ const tronWeb = new TronWeb({
 
 const sign = async (transaction: { transaction: any }) => {
   try {
+    // @ts-ignore
     const tronweb: any = window.tronWeb;
     const signedTransaction = await tronweb.trx.sign(transaction.transaction);
     return signedTransaction;
@@ -51,6 +52,7 @@ const sign = async (transaction: { transaction: any }) => {
 
 const sendRawTransaction = async (signedTransaction: any) => {
   try {
+    // @ts-ignore
     const tronweb = window.tronWeb;
     const result = await tronweb.trx.sendRawTransaction(signedTransaction);
     return result;
@@ -73,13 +75,13 @@ const CreateYourDesignStamp = () => {
   const [ipfsUrl, setIpfsUrl] = useState(null);
   const [attestCompleted, setAttestCompleted] = useState(false);
   // const { user, primaryWallet } = useDynamicContext();
-  const [accountAddress, setaccountAddress] = useState<Hex>();
+  // const [accountAddress, setaccountAddress] = useState<Hex>();
   const [TSDcards, setTSDcards] = useState([]);
   const [result, setresult] = useState();
   const [hasAccount, setHasAccount] = useState<boolean>();
 
-  const contract = tronWeb.contract(tsdFactoryABI, tsdFactoryAddress);
-
+  // const contract = tronWeb.contract(tsdFactoryABI, tsdFactoryAddress);
+  // @ts-ignore
   tronWeb.setAddress(window.tronWeb.defaultAddress.base58);
 
   // CONTRACT CALLS
@@ -96,6 +98,7 @@ const CreateYourDesignStamp = () => {
     
     console.log(result);
   }
+  // @ts-ignore
   async function createTSD(proofName, proofDescription, ipfsUrl) {
     try {
       const result = await tronWeb.transactionBuilder.triggerSmartContract(

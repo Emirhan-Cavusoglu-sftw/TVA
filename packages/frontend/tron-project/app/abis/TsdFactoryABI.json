@@ -1,75 +1,34 @@
-[
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_userName",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_projectName",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_projectDescription",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_dataURI",
-				"type": "string"
-			}
-		],
-		"name": "createTSD",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "tsd",
-		"outputs": [
-			{
-				"internalType": "contract TSD",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "tsdCounter",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "tsds",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	}
-]
+{
+  "entrys": [
+    {
+      "inputs": [
+        { "name": "_userName", "type": "string" },
+        { "name": "_projectName", "type": "string" },
+        { "name": "_projectDescription", "type": "string" },
+        { "name": "_dataURI", "type": "string" }
+      ],
+      "name": "createTSD",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "address" }],
+      "name": "tsd",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "uint256" }],
+      "name": "tsdCounter",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [{ "type": "address" }],
+      "inputs": [{ "type": "uint256" }],
+      "name": "tsds",
+      "stateMutability": "View",
+      "type": "Function"
+    }
+  ]
+}

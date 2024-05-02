@@ -115,7 +115,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "app/components/dy-provider.jsx"  ],
   "exclude": [
     "node_modules"
   ]

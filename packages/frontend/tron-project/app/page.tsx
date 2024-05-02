@@ -11,7 +11,11 @@ import { testAddress } from "./Utils/addresses.js";
 import { bundlerClient, calculateSenderAddress, factory, getFactoryData, getGasPrice, publicClient, walletClient } from "./Utils/helper";
 import { ENTRYPOINT_ADDRESS_V07 } from "permissionless";
 import { entryPointABI } from "./utils/constants";
-
+import { DynamicWidget } from "@dynamic-labs/sdk-react-core";
+import {
+  DynamicContextProvider,
+  useDynamicContext,
+} from "@dynamic-labs/sdk-react-core";
 const TronWeb = require("tronweb");
 
 const tronWeb = new TronWeb({
@@ -275,7 +279,7 @@ export default function Home() {
        
         <button onClick={()=>retrieve()}>RESULT</button>
         </div>
-        
+        {/* <DynamicWidget/> */}
          {/* {!hasAccount && (<div className=" h-8 flex flex-row space-x-6 justify-center items-center text-center mt-4">
           {primaryWallet?.address}
           <button

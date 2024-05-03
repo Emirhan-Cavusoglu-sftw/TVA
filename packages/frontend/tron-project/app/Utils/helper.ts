@@ -34,43 +34,32 @@ import {
   accountABI,
   accountFactoryABI,
   entryPointABI,
-  signProxyABI,
-  signprotocolABI,
+  AF_ADDRESS,
+  
   tsdABI,
 } from "../utils/constants";
 import dynamic from "next/dynamic";
 import { privateKeyToSimpleSmartAccount } from "permissionless/accounts";
 import { readContract } from "@wagmi/core";
 
-import { config } from "./config";
+// import { config } from "./config";
 
-// export const { functionName } = decodeFunctionData({
-//     abi: entryPointABI,
-//     data: '0xfdf4e6f9'
-//   })
+
 
 const endpointUrl =
-  "https://api.pimlico.io/v2/10200/rpc?apikey=382125ba-467a-4a7a-8ac8-05dae90d873b";
+  "https://api.pimlico.io/v2/534351/rpc?apikey=0d1005ee-02d9-4836-810d-27d08cceb39b";
 
-const AF_ADDRESS = "0xCFE04ae5d264Ea78a6BB38E48b9521789d5BbA8F";
 
-// export const wallet = privateKeyToAccount(
-//   `0x${process.env.NEXT_PUBLIC_PAYMASTER_PRIVATE_KEY}`
-// );
 
-// export const paymaster = createWalletClient({
-//   account: wallet,
-//   chain: gnosisChiado,
-//   transport: http(window.ethereum ? window.ethereum : endpointUrl),
-// });
 
-export const walletClient = createWalletClient({
-    chain: gnosisChiado,
-    transport:custom(window.ethereum)
-  })
+
+// export const walletClient = createWalletClient({
+//     chain: gnosisChiado,
+//     transport:custom(window.ethereum)
+//   })
 // export const [account] = await walletClient.getAddresses()
 export const publicClient = createPublicClient({
-  transport: http("https://rpc.chiadochain.net"),
+  transport: http("https://rpc.ankr.com/scroll_sepolia_testnet/d17775fb78762b92aacf9f30af7ccaac0c4e758d5bb9f2ebc3faef3b9cbed604"),
   chain: gnosisChiado,
 });
 
@@ -81,6 +70,7 @@ export const bundlerClient = createClient({
   .extend(bundlerActions(ENTRYPOINT_ADDRESS_V07))
   .extend(pimlicoBundlerActions(ENTRYPOINT_ADDRESS_V07));
 
+  
 const paymasterClient = createClient({
   transport: http(endpointUrl),
   chain: gnosisChiado,

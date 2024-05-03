@@ -6,49 +6,43 @@ import Image from "next/image";
 
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import testABI from "./abis/testABI.json";
-import { testAddress } from "./Utils/addresses.js";
-import { bundlerClient, calculateSenderAddress, factory, getFactoryData, getGasPrice, publicClient, walletClient } from "./Utils/helper";
+
+import { testABI, testAddress } from "./Utils/addresses.js";
+import {
+  bundlerClient,
+  calculateSenderAddress,
+  factory,
+  factoryContract,
+  getFactoryData,
+  getGasPrice,
+  publicClient,
+} from "./Utils/helper";
 import { ENTRYPOINT_ADDRESS_V07 } from "permissionless";
-import { entryPointABI } from "./utils/constants";
+import {
+  accountControlABI,
+  accountControlAddress,
+  entryPointABI,
+} from "./utils/constants";
 import { DynamicWidget } from "@dynamic-labs/sdk-react-core";
 import {
   DynamicContextProvider,
   useDynamicContext,
 } from "@dynamic-labs/sdk-react-core";
+import { Hex } from "viem";
+import { scrollSepolia } from "viem/chains";
+import { writeContract } from "viem/actions";
 const TronWeb = require("tronweb");
 
 const tronWeb = new TronWeb({
   fullHost: "https://nile.trongrid.io/",
   headers: {},
 });
-// import Provider from "./components/dy-provider";
-// import {
-//   DynamicContextProvider,
-//   DynamicWidget,
-//   useDynamicContext,
-// } from "@dynamic-labs/sdk-react-core";
-// import { EthereumWalletConnectors } from "@dynamic-labs/ethereum";
-// import {} from "viem/actions";
-// import {
-//   getGasPrice,
-//   getFactoryData,
-//   calculateSenderAddress,
-//   bundlerClient,
-//   factory,
-//   factoryContract,
-//   publicClient,
-//   walletClient,
-//   factoryData,
-// } from "./utils/helper";
-// import { Hex, parseEther } from "viem";
-// import { ENTRYPOINT_ADDRESS_V07 } from "permissionless";
-// import { entryPointABI } from "./utils/constants";
 
 
-const sign = async (transaction: { transaction: any; }) => {
+
+const sign = async (transaction: { transaction: any }) => {
   try {
-    const tronweb: any = window.tronWeb;
+    const tronweb: any = (window as any).tronWeb;
     const signedTransaction = await tronweb.trx.sign(transaction.transaction);
     return signedTransaction;
   } catch (error) {
@@ -57,9 +51,9 @@ const sign = async (transaction: { transaction: any; }) => {
   }
 };
 
- const sendRawTransaction = async (signedTransaction: any) => {
+const sendRawTransaction = async (signedTransaction: any) => {
   try {
-    const tronweb = window.tronWeb;
+    const tronweb = (window as any).tronWeb;
     const result = await tronweb.trx.sendRawTransaction(signedTransaction);
     return result;
   } catch (error) {
@@ -67,42 +61,52 @@ const sign = async (transaction: { transaction: any; }) => {
   }
 };
 export default function Home() {
-
-  // const { user, primaryWallet } = useDynamicContext();
-  const [result,setresult] = useState();
-  const [hasAccount, setHasAccount] =  useState<boolean>();
-  
-
-  const contract = tronWeb.contract(testABI, testAddress);
+  const { user, primaryWallet } = useDynamicContext();
+  const [result, setresult] = useState();
+  const [hasAccount, setHasAccount] = useState<boolean>();
+  const [accountControlContract, setAccountControlContract] = useState();
+  const [testContract, setTestContract] = useState();
+  // const contract = tronWeb.contract(testABI, testAddress);
+  const contractt = tronWeb.contract(accountControlABI, accountControlAddress);
 
   useEffect(() => {
-    if(window.tronWeb) {
-      console.log(window.tronWeb.defaultAddress.base58);
-      const tronWeb = window.tronWeb;
-      tronWeb.setAddress(window.tronWeb.defaultAddress.base58);
-    }else {
+    if ((window as any).tronWeb && (window as any).tronWeb.defaultAddress) {
+      const tronWeb = (window as any).tronWeb;
+      tronWeb.setAddress(tronWeb.defaultAddress.base58);
+      setTestContract(tronWeb.contract(testABI, testAddress));
+      setAccountControlContract(
+        tronWeb.contract(accountControlABI, accountControlAddress)
+      );
+    } else {
       console.log("no tronweb");
     }
   }, []);
-  
-  // tronWeb.setAddress(window.tronWeb.defaultAddress.base58);
+
   useEffect(() => {
     async function getContract() {
-      let result = await contract.retrieve().call();
-      console.log(result);
+      if (accountControlContract) {
+        let result = await (accountControlContract as any)
+          .isAccountChecked("TUwGQNag8QCWWWaPbbRuLs1Zsne1Ro7icv")
+          .call();
+        console.log(result);
+      }
     }
-    getContract();
-  }, []);
+     getContract();
+  }, [accountControlContract]);
 
-
-  async function retrieve() {
-    let result = await contract.retrieve().call();
-    result = await tronWeb.toDecimal(result);
-    console.log(result);
+  async function consoleContract() {
+    console.log(accountControlContract);
+    
+    console.log(testContract);
   }
+
+  // async function retrieve() {
+  //   let result = await testContract.retrieve().call();
+  //   result = await tronWeb.toDecimal(result);
+  //   console.log(result);
+  // }
   async function store(i) {
     try {
-
       const result = await tronWeb.transactionBuilder.triggerSmartContract(
         testAddress,
         "store(uint256)",
@@ -119,7 +123,6 @@ export default function Home() {
 
     setresult(result);
   }
-
 
   const { ref: ref1, inView: inView1 } = useInView({
     triggerOnce: false,
@@ -164,18 +167,18 @@ export default function Home() {
     }
   }, [mainControls3, inView3]);
 
-  // useEffect(() => {
-  //   const fetchAccountAddress = async () => {
-  //     const address = primaryWallet?.address;
-  //     console.log(address);
-  //     if (address) {
-  //       const userHasAccount = await factoryContract.read.hasAccount([address]);
-  //       setHasAccount(userHasAccount as boolean);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchAccountAddress = async () => {
+      const address = primaryWallet?.address;
+      console.log(address);
+      if (address) {
+        const userHasAccount = await factoryContract.read.hasAccount([address]);
+        setHasAccount(userHasAccount as boolean);
+      }
+    };
 
-  //   fetchAccountAddress();
-  // }, [primaryWallet]);
+    fetchAccountAddress();
+  }, [primaryWallet]);
 
   const consoleHasAccount = async () => {
     console.log(hasAccount);
@@ -188,25 +191,49 @@ export default function Home() {
     );
     console.log("Sender Address: ", await calculateSenderAddress(factoryData));
   };
+  // const fundAccountT = async () => {
+  //   const result = await writeContract(config, {
+  //     abi: entryPointABI,
+  //     address: ENTRYPOINT_ADDRESS_V07,
+  //     functionName: "depositTo",
+  //     chainId: scrollSepolia.id,
+  //     value: parseEther("0.01"),
+  //   });
+  //   console.log(result);
+  // };
 
-  const fundAccount = async () => {
-    // const fund = await entryPointContract.write.depositTo([accountAddress],parseEther("0.01"));
-    // console.log(fund);
-    const factoryData = await getFactoryData(
-      primaryWallet?.address,
-      user?.alias
-    );
-    const { request } = await publicClient.simulateContract({
-      account: primaryWallet?.address,
-      address: ENTRYPOINT_ADDRESS_V07,
-      abi: entryPointABI,
-      functionName: 'depositTo',
-      args: [await calculateSenderAddress(factoryData)],
-      value: parseEther("0.2"),
-    })
-    const fund =await walletClient.writeContract(request)
-    console.log(fund)
-  }
+  // const fundAccount = async () => {
+  //   // const fund = await entryPointContract.write.depositTo([accountAddress],parseEther("0.01"));
+  //   // console.log(fund);
+  //   const factoryData = await getFactoryData(
+  //     primaryWallet?.address,
+  //     user?.alias
+  //   );
+  //   const { request } = await publicClient.simulateContract({
+  //     account: primaryWallet?.address,
+  //     address: ENTRYPOINT_ADDRESS_V07,
+  //     abi: entryPointABI,
+  //     functionName: "depositTo",
+  //     args: [await calculateSenderAddress(factoryData)],
+  //     value: parseEther("0.2"),
+  //   });
+  //   const fund = await walletClient.writeContract(request);
+  //   console.log(fund);
+  // };
+
+  const consoleAddress = async () => {
+    async function getContract() {
+      if (accountControlContract) {
+        let result = await (accountControlContract as any)
+          .isAccountChecked("TUwGQNag8QCWWWaPbbRuLs1Zsne1Ro7icv")
+          .call();
+        console.log(result);
+      }
+    }
+    await getContract();
+    
+    console.log((window as any).tronWeb.defaultAddress.base58);
+  };
 
   const createAccount = async () => {
     let gasPrice = await getGasPrice();
@@ -244,7 +271,7 @@ export default function Home() {
 
     console.log(`UserOperation included: ${txHash}`);
   };
-  
+
   return (
     <>
       <WavyBackground className="pb-40">
@@ -254,58 +281,59 @@ export default function Home() {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.1, ease: "easeInOut" }}
         >
-          TimeWeave       
-
-           </motion.p>
+          TimeWeave
+        </motion.p>
         <motion.p
           className="text-base md:text-lg mt-4 text-black font-normal inter-var text-center"
           initial={{ y: -100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.1, ease: "easeInOut" }}
         >
-          WitnessBase: Securing unregistered product designs and enhancing user
+          TimeWeave: Securing unregistered product designs and enhancing user
           experience with decentralized wallets.
-          
         </motion.p>
-        {/* {!hasAccount && (<div className=" h-8 flex flex-row space-x-6 justify-center items-center text-center mt-4">
-          {primaryWallet?.address}
-          <button
-            className="flex justify-center mt-6 h-[3.5rem] w-64  rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4"
-            onClick={() => createAccount()}
-          >
-            Create Your Smart Account
-          </button>
+        {!hasAccount && (
+          <div className=" h-8 flex flex-row space-x-6 justify-center items-center text-center mt-4">
+            {primaryWallet?.address}
+            <button
+              className="flex justify-center mt-6 h-[3.5rem] w-64  rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4"
+              onClick={() => createAccount()}
+            >
+              Create Your Smart Account
+            </button>
 
-          <button
-            className="flex justify-center mt-6 h-[3.5rem] w-64  rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4"
-            onClick={() => fundAccount()}
-          >
-            Fund Your Smart Account
-          </button>
-        </div>)} */}
+            <button
+              className="flex justify-center mt-6 h-[3.5rem] w-64  rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4"
+              onClick={() => fundAccount()}
+            >
+              Fund Your Smart Account
+            </button>
+          </div>
+        )}
         <div className="flex flex-col">
-
-        <button onClick={()=>store(10)}>BASSS</button>
-       
-        <button onClick={()=>retrieve()}>RESULT</button>
+          <button onClick={() => store(10)}>BASSS</button>
         </div>
-       
-         {/* {!hasAccount && (<div className=" h-8 flex flex-row space-x-6 justify-center items-center text-center mt-4">
-          {primaryWallet?.address}
-          <button
-            className="flex justify-center mt-6 h-[3.5rem] w-64  rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4"
-            onClick={() => createAccount()}
-          >
-            Create Your Smart Account
-          </button>
 
-          <button
-            className="flex justify-center mt-6 h-[3.5rem] w-64  rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4"
-            onClick={() => fundAccount()}
-          >
-            Fund Your Smart Account
-          </button>
-        </div>)} */}
+        <button
+          className="flex justify-center mt-6 h-[3.5rem] w-64  rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4"
+          onClick={() => consoleAddress()}
+        >
+          Console Address
+        </button>
+        <button
+          className="flex justify-center mt-6 h-[3.5rem] w-64  rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4"
+          onClick={() => consoleHasAccount()}
+        >
+          Console Has Account
+        </button>
+
+        <button
+          className="flex justify-center mt-6 h-[3.5rem] w-64  rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4"
+          onClick={() => consoleContract()}
+        >
+          Console Contract
+        </button>
+       
         <div className="flex mt-[600px] ">
           <div className="flex flex-col space-y-64">
             <motion.div
@@ -328,10 +356,10 @@ export default function Home() {
               />
               <p className="w-[450px] text-xl font-normal text-center pt-4 flex flex-col ">
                 <span className="font-bold mb-4">
-                  WitnessBase Ensures Security and Legal Validity for
-                  Unregistered Product Designs
+                  TimeWeave Ensures Security and Legal Validity for Unregistered
+                  Product Designs
                 </span>
-                WitnessBase is a groundbreaking platform revolutionizing the
+                TimeWeave is a groundbreaking platform revolutionizing the
                 protection of unregistered product designs. Utilizing Solidity
                 for robust backend functionality, WitnessBase ensures the
                 integrity of design data, transforming it into admissible
@@ -354,7 +382,7 @@ export default function Home() {
             >
               <p className="w-[450px] text-xl font-normal text-center pt-12 flex flex-col">
                 <span className="font-bold mb-4">
-                  WitnessBase&apos;s Time Stamp Documents Simplify Registration
+                  TimeWeave&apos;s Time Stamp Documents Simplify Registration
                   for Unregistered Product Designs
                 </span>
                 Time Stamp Documents (TSDs) on the platform allow users to input
@@ -392,7 +420,7 @@ export default function Home() {
                 <span className="font-bold mb-4">
                   Protecting Unregistered Product Designs
                 </span>
-                WitnessBase incorporates Account Abstraction (AA), a secure
+                TimeWeave incorporates Account Abstraction (AA), a secure
                 mechanism for storing Time Stamp Documents (TSDs) within users’
                 wallets. This feature empowers users to download sample PDFs and
                 seamlessly input essential registration details, ensuring the

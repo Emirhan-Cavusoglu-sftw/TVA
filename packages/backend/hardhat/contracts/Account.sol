@@ -4,16 +4,11 @@ pragma solidity ^0.8.24;
 import "@account-abstraction/contracts/core/EntryPoint.sol";
 import "@account-abstraction/contracts/interfaces/IAccount.sol";
 import "./TSD.sol";
-import {ISP} from "@ethsign/sign-protocol-evm/src/interfaces/ISP.sol";
-import {Attestation} from "@ethsign/sign-protocol-evm/src/models/Attestation.sol";
-import {DataLocation} from "@ethsign/sign-protocol-evm/src/models/DataLocation.sol";
 
 contract Account is IAccount {
-    ISP public spInstance = ISP(0x4e4af2a21ebf62850fD99Eb6253E1eFBb56098cD);
-    uint64 public schemaId;
     uint256 public tsdCounter;
     address public owner;
-    string public userName = "Emojan";
+    string public userName;
     TSD public tsd;
     address[] public tsds;
 
@@ -42,7 +37,9 @@ contract Account is IAccount {
         tsdCounter++;
     }
 
-   
+    function getTsds() public view returns (address[] memory) {
+        return tsds;
+    }
 }
 
 contract AccountFactory {

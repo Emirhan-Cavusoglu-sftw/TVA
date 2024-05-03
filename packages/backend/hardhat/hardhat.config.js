@@ -21,8 +21,10 @@ module.exports = {
       accounts: accounts,
     },
     chiado: {
-      url: "https://rpc.chiadochain.net",
+      url: "https://rpc.ankr.com/gnosis_testnet/d17775fb78762b92aacf9f30af7ccaac0c4e758d5bb9f2ebc3faef3b9cbed604",
       // gasPrice: 1000000000,
+      // https://rpc.ankr.com/gnosis_testnet/d17775fb78762b92aacf9f30af7ccaac0c4e758d5bb9f2ebc3faef3b9cbed604
+      // https://rpc.chiadochain.net
       accounts: [process.env.PRIVATE_KEY],
     },
     sepolia: {
@@ -30,9 +32,7 @@ module.exports = {
       accounts: [process.env.PRIVATE_KEY],
     },
   },
-  sourcify: {
-    enabled: true
-  },
+  
   etherscan: {
     customChains: [
       {

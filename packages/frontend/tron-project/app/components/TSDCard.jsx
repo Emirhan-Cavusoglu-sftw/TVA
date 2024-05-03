@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 // import { GetIpfsUrlFromPinata } from "../utils/util";
 
-const NFTCard = () => {
+const TSDCard = () => {
 
   // const data = GetIpfsUrlFromPinata(ipfsUrl);
   return (
@@ -24,4 +24,4 @@ const NFTCard = () => {
   );
 };
 
-export default NFTCard;
+export default TSDCard;

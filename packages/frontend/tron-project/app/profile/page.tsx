@@ -1,100 +1,100 @@
 "use client";
 import React, { use, useEffect, useState } from "react";
-import TSDCard from "../components/TSDCard";
+import TSDCard from "../Components/TSDCard";
 import Image from "next/image";
-// import TSDInfoCard from "../components/TSDInfoCard";
-// import {
-//   getTSDContract,
-//   factoryContract,
-//   entryPointContract,
-//   getAccountContract,
-//   publicClient,
-//   walletClient,
-// } from "../utils/helper";
+import TSDInfoCard from "../Components/TSDInfoCard";
+import {
+  getTSDContract,
+  factoryContract,
+  entryPointContract,
+  getAccountContract,
+  publicClient,
+  walletClient,
+} from "../Utils/helper";
 import motion from "framer-motion";
-// import {
-//   DynamicContextProvider,
-//   DynamicWidget,
-//   useDynamicContext,
-// } from "@dynamic-labs/sdk-react-core";
-// import { Hex, parseEther, parseUnits } from "viem";
-// import { entryPointABI } from "../utils/constants";
-// import { ENTRYPOINT_ADDRESS_V07 } from "permissionless";
-// import { get } from "http";
+import {
+  DynamicContextProvider,
+  DynamicWidget,
+  useDynamicContext,
+} from "@dynamic-labs/sdk-react-core";
+import { Hex, parseEther, parseUnits } from "viem";
+import { entryPointABI } from "../utils/constants";
+import { ENTRYPOINT_ADDRESS_V07 } from "permissionless";
+import { get } from "http";
 
 const Profile = () => {
-  // const { user, primaryWallet } = useDynamicContext();
-  // const [accountAddress, setaccountAddress] = useState<Hex>();
-  // const [TSDcards, setTSDcards] = useState([]);
-  // const [rendered,setRendered] = useState(false);
+  const { user, primaryWallet } = useDynamicContext();
+  const [accountAddress, setaccountAddress] = useState<Hex>();
+  const [TSDcards, setTSDcards] = useState([]);
+  const [rendered,setRendered] = useState(false);
 
-  // useEffect(() => {
-  //   const fetchAccountAddress = async () => {
-  //     const address = primaryWallet?.address;
+  useEffect(() => {
+    const fetchAccountAddress = async () => {
+      const address = primaryWallet?.address;
 
-  //     if (address) {
-  //       const userAccountAddress = await factoryContract.read.ownerToAccount([
-  //         address,
-  //       ]);
-  //       setaccountAddress(userAccountAddress as Hex);
-  //     }
-  //   };
-  //   fetchAccountAddress();
-  //   console.log(rendered);
-  // }, [primaryWallet]);
+      if (address) {
+        const userAccountAddress = await factoryContract.read.ownerToAccount([
+          address,
+        ]);
+        setaccountAddress(userAccountAddress as Hex);
+      }
+    };
+    fetchAccountAddress();
+    console.log(rendered);
+  }, [primaryWallet]);
 
-  // const getAccountAddress = async () => {
+  const getAccountAddress = async () => {
     // const userAccountAddress = await factoryContract.read.ownerToAccount([
     //   primaryWallet?.address,
     // ]);
-  //   console.log(accountAddress);
-  // };
-  // const fundAccount = async () => {
+    console.log(accountAddress);
+  };
+  const fundAccount = async () => {
     // const fund = await entryPointContract.write.depositTo([accountAddress],parseEther("0.01"));
     // console.log(fund);
-  //   const { request } = await publicClient.simulateContract({
-  //     account: primaryWallet?.address,
-  //     address: ENTRYPOINT_ADDRESS_V07,
-  //     abi: entryPointABI,
-  //     functionName: "depositTo",
-  //     args: [accountAddress],
-  //     value: parseEther("0.2"),
-  //   });
-  //   const fund = await walletClient.writeContract(request);
-  //   console.log(fund);
-  // };
-  // const consoleAccount = async () => {
-  //   console.log(account);
-  // };
+    const { request } = await publicClient.simulateContract({
+      account: primaryWallet?.address,
+      address: ENTRYPOINT_ADDRESS_V07,
+      abi: entryPointABI,
+      functionName: "depositTo",
+      args: [accountAddress],
+      value: parseEther("0.2"),
+    });
+    const fund = await walletClient.writeContract(request);
+    console.log(fund);
+  };
+  const consoleAccount = async () => {
+    console.log(account);
+  };
   
   
-  // const getTSD = async () => {
-  //   const address = primaryWallet?.address;
+  const getTSD = async () => {
+    const address = primaryWallet?.address;
    
 
-  //     const accountContract = await getAccountContract(accountAddress);
+      const accountContract = await getAccountContract(accountAddress);
       
-  //     const tsdCount = await accountContract.read.tsdCounter();
+      const tsdCount = await accountContract.read.tsdCounter();
       
-  //     const newTSDcards = [];
-  //     for (let i = 0; i < tsdCount; i++) {
-  //       const tsd = await accountContract.read.tsds([i]);
-  //       const tsdContract = await getTSDContract(tsd);
-  //       const proofName = await tsdContract.read.projectName();
-  //       const userName = await tsdContract.read.userName();
-  //       const ipfsUrl = await tsdContract.read.dataURI();
-  //       newTSDcards.push({ ...tsd, userName, ipfsUrl, proofName });
-  //     }
+      const newTSDcards = [];
+      for (let i = 0; i < tsdCount; i++) {
+        const tsd = await accountContract.read.tsds([i]);
+        const tsdContract = await getTSDContract(tsd);
+        const proofName = await tsdContract.read.projectName();
+        const userName = await tsdContract.read.userName();
+        const ipfsUrl = await tsdContract.read.dataURI();
+        newTSDcards.push({ ...tsd, userName, ipfsUrl, proofName });
+      }
       
-  //     const tsdd = await accountContract.read.tsds([BigInt(tsdCount)-BigInt(1)]);
-  //     const tsdContract = await getTSDContract(tsdd);
-  //     let ipfsUrl = await tsdContract.read.dataURI();
-  //     console.log(ipfsUrl);
-  //     console.log(tsdCount);
-  //     setTSDcards(newTSDcards);
-  //     console.log(newTSDcards);
+      const tsdd = await accountContract.read.tsds([BigInt(tsdCount)-BigInt(1)]);
+      const tsdContract = await getTSDContract(tsdd);
+      let ipfsUrl = await tsdContract.read.dataURI();
+      console.log(ipfsUrl);
+      console.log(tsdCount);
+      setTSDcards(newTSDcards);
+      console.log(newTSDcards);
     
-  // };
+  };
 
   
   
@@ -107,7 +107,7 @@ const Profile = () => {
         <div className="flex flex-row bg-orange-400 h-[100px] w-[880px] ml-12 justify-center items-center text-center rounded-2xl">
           <h1 className="font-bold text-2xl">
             Your Smart Account:{" "}
-            {/* {accountAddress ? accountAddress : "Account Address"} */}
+            {accountAddress ? accountAddress : "Account Address"}
           </h1>
           <svg
             width="60px"
@@ -181,7 +181,7 @@ const Profile = () => {
       <div className="space-y-24">
         <div className="flex justify-center items-center"><button
           className="flex justify-center  h-[3.5rem] w-64 rounded-xl bg-gray-200 bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4"
-          // onClick={() => getTSD()}
+          onClick={() => getTSD()}
         >
           Show Your TSDs
         </button></div>
@@ -195,7 +195,7 @@ const Profile = () => {
         <div className="flex justify-center flex-col items-center space-y-5 mr-12 ">
           <h1 className="font-bold text-4xl ml-12 mb-14">Registrations</h1>
           <div className="flex justify-center flex-wrap space-x-10 ml-12 pb-10">
-            {/* {TSDcards.map((tsd, index) => {
+            {TSDcards.map((tsd, index) => {
               return (
                 <TSDInfoCard
                   key={index}
@@ -204,7 +204,7 @@ const Profile = () => {
                   proofName={tsd.proofName}
                 />
               );
-            })} */}
+            })}
           </div>
         </div>
       </div>

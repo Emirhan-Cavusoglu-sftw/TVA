@@ -1,4 +1,4 @@
-//@ts-nocheck
+
 "use client";
 import React, { useEffect, useState } from "react";
 import { uploadFileToIPFS } from "../Utils/pinata";
@@ -6,9 +6,11 @@ import MyDocument from "../components/pdfviewer.jsx";
 // import dynamic from "next/dynamic";
 import { pdf } from "@react-pdf/renderer";
 import Link from "next/link";
-import testABI from "../abis/testABI.json";
-import tsdFactoryABI from "../abis/TsdFactoryABI.json";
+
 import { testAddress, tsdFactoryAddress } from "../Utils/addresses.js";
+import { bundlerClient, entryPointContract, factoryContract, getCreateTSD, getGasPrice } from "../Utils/helper";
+import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
+import { Hex } from "viem";
 
 const TronWeb = require("tronweb");
 
@@ -74,8 +76,8 @@ const CreateYourDesignStamp = () => {
   const [fileDataUrls, setFileDataUrls] = useState([]);
   const [ipfsUrl, setIpfsUrl] = useState(null);
   const [attestCompleted, setAttestCompleted] = useState(false);
-  // const { user, primaryWallet } = useDynamicContext();
-  // const [accountAddress, setaccountAddress] = useState<Hex>();
+  const { user, primaryWallet } = useDynamicContext();
+  const [accountAddress, setaccountAddress] = useState<Hex>();
   const [TSDcards, setTSDcards] = useState([]);
   const [result, setresult] = useState();
   const [hasAccount, setHasAccount] = useState<boolean>();
@@ -92,6 +94,21 @@ const CreateYourDesignStamp = () => {
     }
   }, []);
 
+  useEffect(() => {
+    const fetchAccountAddress = async () => {
+      const address = primaryWallet?.address;
+      console.log(address);
+      if (address) {
+        const userAccountAddress = await factoryContract.read.ownerToAccount([
+          address,
+        ]);
+        setaccountAddress(userAccountAddress as Hex);
+      }
+    };
+
+    fetchAccountAddress();
+  }, [primaryWallet]);
+
   // CONTRACT CALLS
   // useEffect(() => {
   //   async function getContract() {
@@ -103,7 +120,7 @@ const CreateYourDesignStamp = () => {
 
   async function retrieve() {
     let result = await contract.tsds("0").call();
-
+    
     console.log(result);
   }
   // @ts-ignore
@@ -200,13 +217,45 @@ const CreateYourDesignStamp = () => {
 
       // Upload PDF to Pinata
       const ipfsUrl = await uploadPDFToPinata(pdfBlob);
-      try {
-        console.log("Creating TSD...");
-        await createTSD(proofName, proofDescription, ipfsUrl);
-      } catch (error) {
-        console.log(error);
-      }
-      console.log("TSD created successfully!");
+
+      
+
+      let nonce = await entryPointContract.read.getNonce([accountAddress, 0]);
+
+      const createTSD = await getCreateTSD(
+        proofName,
+        proofDescription,
+        ipfsUrl
+      );
+
+      let gasPrice = await getGasPrice();
+
+      const userOperationHash = await bundlerClient.sendUserOperation({
+        userOperation: {
+          sender: accountAddress,
+          nonce: BigInt(nonce),
+          callData: createTSD,
+          maxFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
+          maxPriorityFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
+          paymasterVerificationGasLimit: BigInt(1000000),
+          signature: "0x" as Hex,
+          callGasLimit: BigInt(2_000_000),
+          verificationGasLimit: BigInt(2_000_000),
+          preVerificationGas: BigInt(2_000_000),
+        },
+      });
+
+      console.log("Received User Operation hash:" + userOperationHash);
+
+      console.log("Querying for receipts...");
+      const receipt = await bundlerClient.waitForUserOperationReceipt({
+        hash: userOperationHash,
+      });
+
+      const txHash = receipt.receipt.transactionHash;
+
+      console.log(`UserOperation included: ${txHash}`);
+
       // Display success message
 
       setMessage("PDF uploaded to Pinata successfully!");
@@ -327,7 +376,7 @@ const CreateYourDesignStamp = () => {
           </div>
         </form>
 
-        {/* <button className="h-10 w-40 bg-gray-200 rounded-lg text-center border-2 border-black font-bold" onClick={()=>retrieve()}></button> */}
+        <button className="h-10 w-40 bg-gray-200 rounded-lg text-center border-2 border-black font-bold" onClick={()=>retrieve()}></button>
       </div>
     </>
   );

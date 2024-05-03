@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { GetIpfsUrlFromPinata } from "../utils/util";
+// import { GetIpfsUrlFromPinata } from "../Utils/util";
 import Link from "next/link";
 
 const TSDInfoCard = ({ ipfsUrl,userName, proofName }) => {

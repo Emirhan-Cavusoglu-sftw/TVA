@@ -83,11 +83,11 @@ const CreateYourDesignStamp = () => {
   // const contract = tronWeb.contract(tsdFactoryABI, tsdFactoryAddress);
   // @ts-ignore
   useEffect(() => {
-    if(window.tronWeb) {
+    if (window.tronWeb) {
       console.log(window.tronWeb.defaultAddress.base58);
       const tronWeb = window.tronWeb;
       tronWeb.setAddress(window.tronWeb.defaultAddress.base58);
-    }else {
+    } else {
       console.log("no tronweb");
     }
   }, []);
@@ -103,7 +103,7 @@ const CreateYourDesignStamp = () => {
 
   async function retrieve() {
     let result = await contract.tsds("0").call();
-    
+
     console.log(result);
   }
   // @ts-ignore
@@ -256,23 +256,29 @@ const CreateYourDesignStamp = () => {
         >
           <label htmlFor="file" className="cursor-pointer">
             <div className="flex w-[700px] h-[300px] flex-col border-2 border-black space-y-5 justify-center rounded-3xl">
-              {previews.map((preview, index) => (
-                <div
-                  key={index}
-                  className="w-full h-80 flex items-center justify-center"
-                >
-                  <img
-                    src={preview}
-                    alt={`Preview-${index}`}
-                    className="w-[300px] h-80"
-                  />
-                </div>
-              ))}
-              <h1 className="font-bold">Upload Your Proof</h1>
-              <h1 className="font-bold">
-                Drag and Drop or Choose your Image(s)
-              </h1>
-              <h1 className="font-bold">(Max size 2GB)</h1>
+              <div className="flex flex-wrap justify-center">
+                {previews.map((preview, index) => (
+                  <div
+                    key={index}
+                    className="w-1/2 h-80 flex items-center justify-center"
+                  >
+                    <img
+                      src={preview}
+                      alt={`Preview-${index}`}
+                      className="w-[600px] h-64"
+                    />
+                  </div>
+                ))}
+              </div>
+              {previews.length === 0 && (
+                <>
+                  <h1 className="font-bold">Upload Your Proof</h1>
+                  <h1 className="font-bold">
+                    Drag and Drop or Choose your Image(s)
+                  </h1>
+                  <h1 className="font-bold">(Max size 2GB)</h1>
+                </>
+              )}
             </div>
           </label>
           <input
@@ -318,11 +324,10 @@ const CreateYourDesignStamp = () => {
             >
               {isLoading ? "Loading..." : "Submit"}
             </button>
-            
           </div>
         </form>
 
-        <button className="h-10 w-40 bg-gray-200 rounded-lg text-center border-2 border-black font-bold" onClick={()=>retrieve()}></button>
+        {/* <button className="h-10 w-40 bg-gray-200 rounded-lg text-center border-2 border-black font-bold" onClick={()=>retrieve()}></button> */}
       </div>
     </>
   );

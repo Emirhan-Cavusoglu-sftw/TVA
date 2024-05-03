@@ -29,7 +29,7 @@ import {
   custom,
 } from "viem";
 import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
-import { gnosisChiado } from "viem/chains";
+import { gnosisChiado, scrollSepolia } from "viem/chains";
 import {
   accountABI,
   accountFactoryABI,
@@ -50,7 +50,10 @@ const endpointUrl =
   "https://api.pimlico.io/v2/534351/rpc?apikey=0d1005ee-02d9-4836-810d-27d08cceb39b";
 
 
-
+  export const walletClient = createWalletClient({
+    chain: scrollSepolia,
+    transport:custom(window.ethereum)
+  })
 
 
 // export const walletClient = createWalletClient({
@@ -140,7 +143,10 @@ export const getTSDContract = async (address: any) => {
   });
   return tsdContract;
 };
-
+export const getNonce = async (address: any) => {
+  const nonce = await entryPointContract.read.getNonce([address,0]);
+  return nonce;
+}
 
 
 export const getGasPrice = async () => {

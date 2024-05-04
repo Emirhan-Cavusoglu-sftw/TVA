@@ -8,6 +8,4 @@ const ContactUs = () => {
   );
 };
 
-export default dynamic(() => Promise.resolve(Page), {
-  ssr: false,
-});
+

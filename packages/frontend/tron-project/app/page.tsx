@@ -60,7 +60,7 @@ export default function Home() {
 
   useEffect(() => {
     const fetchAccountAddress = async () => {
-      const tronWeb = (window as any).tronWeb;
+      const tronWeb = window && (window as any).tronWeb;
       if (tronExist) {
         // tronWeb.setAddress(tronAddress);
       }
@@ -120,10 +120,11 @@ export default function Home() {
     console.log(isAccountChecked);
   };
   const createControlAccount = async () => {
-    if(typeof window === 'undefined'){
+    
+    
 
-      const tronWeb = (window as any).tronWeb;
-    }
+      const tronWeb = window && (window as any).tronWeb;
+    
     
     const address = tronWeb.defaultAddress.base58;
     const metamastAddress = primaryWallet?.address;

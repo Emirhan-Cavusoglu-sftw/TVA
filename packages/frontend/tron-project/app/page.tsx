@@ -45,32 +45,34 @@ const tronWeb = new TronWeb({
   fullHost: "https://nile.trongrid.io/",
   headers: {},
 });
-const tronExist = !!(window as any).tronWeb.defaultAddress.base58;
-const tronAddress = (window as any).tronWeb.defaultAddress.base58;
-const sign = async (transaction: { transaction: any }) => {
-  try {
-    const tronweb = window.tronWeb;
-    const signedTransaction = await tronweb.trx.sign(transaction.transaction);
-    return signedTransaction;
-  } catch (error) {
-    console.log(error, "signerr");
-    throw new Error(String(error));
-  }
-};
+// const tronExist = !!(window as any).tronWeb.defaultAddress.base58;
+// const tronAddress = (window as any).tronWeb.defaultAddress.base58;
+// const sign = async (transaction: { transaction: any }) => {
+//   try {
+//     const tronweb = window.tronWeb;
+//     const signedTransaction = await tronweb.trx.sign(transaction.transaction);
+//     return signedTransaction;
+//   } catch (error) {
+//     console.log(error, "signerr");
+//     throw new Error(String(error));
+//   }
+// };
 
-const sendRawTransaction = async (signedTransaction: any) => {
-  try {
-    const tronweb = window.tronWeb;
-    const result = await tronweb.trx.sendRawTransaction(signedTransaction);
-    return result;
-  } catch (error) {
-    throw new Error(error);
-  }
-};
+// const sendRawTransaction = async (signedTransaction: any) => {
+//   try {
+//     const tronweb = window.tronWeb;
+//     const result = await tronweb.trx.sendRawTransaction(signedTransaction);
+//     return result;
+//   } catch (error) {
+//     throw new Error(error);
+//   }
+// };
 export default function Home() {
   const { user, primaryWallet } = useDynamicContext();
   const [result, setresult] = useState();
   const [hasAccount, setHasAccount] = useState<boolean>();
+  const [tronExist, setTronExist] = useState<boolean>();
+  const [isAccountChecked, setIsAccountChecked] = useState<boolean>();
   const [accountControlContract, setAccountControlContract] = useState();
   const [testContract, setTestContract] = useState();
   const [hasFund, setHasFund] = useState<boolean>();
@@ -80,7 +82,7 @@ export default function Home() {
 
   useEffect(() => {
     const fetchAccountAddress = async () => {
-     const  tronWeb = (window as any).tronWeb;
+      const tronWeb = (window as any).tronWeb;
       if (tronExist) {
         // tronWeb.setAddress(tronAddress);
       }
@@ -88,6 +90,13 @@ export default function Home() {
       setAccountControlContract(
         tronWeb.contract(accountControlABI, accountControlAddress)
       );
+      const tronAddress = tronWeb.defaultAddress.base58;
+      const contract = tronWeb.contract(
+        accountControlABI,
+        accountControlAddress
+      );
+      let result = await contract.isAccountChecked(tronAddress).call();
+      setIsAccountChecked(result);
     };
     fetchAccountAddress();
   }, []);
@@ -98,7 +107,6 @@ export default function Home() {
         let result = await (accountControlContract as any)
           .isAccountChecked("TUwGQNag8QCWWWaPbbRuLs1Zsne1Ro7icv")
           .call();
-        
       }
     }
     getContract();
@@ -108,7 +116,6 @@ export default function Home() {
     console.log(accountControlContract);
 
     console.log(testContract);
-    
   }
 
   useEffect(() => {
@@ -117,8 +124,13 @@ export default function Home() {
 
       if (address) {
         const userHasAccount = await factoryContract.read.hasAccount([address]);
-        const accountAddress = await factoryContract.read.ownerToAccount([address]);
-        const userHasFund = await entryPointContract.read.balanceOf([accountAddress]);
+        const accountAddress = await factoryContract.read.ownerToAccount([
+          address,
+        ]);
+        const userHasFund = await entryPointContract.read.balanceOf([
+          accountAddress,
+        ]);
+
         setHasAccount(!!userHasAccount as boolean);
         setHasFund(!!userHasFund as boolean);
       }
@@ -126,35 +138,31 @@ export default function Home() {
 
     fetchAccountAddress();
   }, [primaryWallet]);
-  const storeSend = async () => {
-    const tronWeb= (window as any).tronWeb;
-    const contract = tronWeb.contract(testABI, testAddress);
-    let result = await contract.store(0).send({
-    
-    shouldPollResponse:true
-
-  })
-  console.log(result)
-  }
-  const createAccountt = async () => {
-    const tronWeb= (window as any).tronWeb;
+  const consoleCheck = async () => {
+    console.log(isAccountChecked);
+  };
+  const createControlAccount = async () => {
+    const tronWeb = (window as any).tronWeb;
     const address = tronWeb.defaultAddress.base58;
     const metamastAddress = primaryWallet?.address;
     const contract = tronWeb.contract(accountControlABI, accountControlAddress);
-    let result = await contract.createAccount(address,metamastAddress).send({
-    
-    shouldPollResponse:true
+    let result = await contract.createAccount(address, metamastAddress).send({
+      shouldPollResponse: true,
+    });
+    console.log(result);
+  };
+  const setCheck = async () => {
+    const address = tronWeb.defaultAddress.base58;
+    const metamastAddress = primaryWallet?.address;
+    const contract = tronWeb.contract(accountControlABI, accountControlAddress);
+    let result = await contract.isAccountChecked(address).call();
+    setIsAccountChecked(result);
+  };
 
-  })
-  console.log(result)
-  }
-  
-  
   const consoleHasFund = async () => {
     console.log(hasFund);
   };
   const consoleAccount = async () => {
-
     const account = await readContract(config, {
       address: AF_ADDRESS,
       abi: accountFactoryABI,
@@ -171,29 +179,8 @@ export default function Home() {
     );
     console.log("Sender Address: ", await calculateSenderAddress(factoryData));
   };
-  
-  async function store(i) {
-    try {
 
-      const result = await tronWeb.transactionBuilder.triggerSmartContract(
-        testAddress,
-        "store(uint256)",
-        { _isConstant: false },
-        [{ type: "uint256", value: i }]
-      );
-      console.log(result);
-      const signedTransaction = await sign(result);
-      const transaction = await sendRawTransaction(signedTransaction);
-      console.log(transaction);
-    } catch (error) {
-      console.log(error);
-    }
-
-    setresult(result);
-  }
   const fundAccount = async () => {
-    // const fund = await entryPointContract.write.depositTo([accountAddress],parseEther("0.01"));
-    // console.log(fund);
     const factoryData = await getFactoryData(
       primaryWallet?.address,
       user?.alias
@@ -211,19 +198,6 @@ export default function Home() {
     console.log(fund);
   };
 
-  const consoleAddress = async () => {
-    async function getContract() {
-      if (accountControlContract) {
-        let result = await (accountControlContract as any)
-          .isAccountChecked("TUwGQNag8QCWWWaPbbRuLs1Zsne1Ro7icv")
-          .call();
-        console.log(result);
-      }
-    }
-    await getContract();
-
-    console.log((window as any).tronWeb.defaultAddress.base58);
-  };
   const consoleNonce = async () => {
     const factoryData = await getFactoryData(
       primaryWallet?.address,
@@ -233,6 +207,7 @@ export default function Home() {
     const nonce = await getNonce(senderAddress);
     console.log(nonce);
   };
+
   const createAccount = async () => {
     let gasPrice = await getGasPrice();
     const factoryData = await getFactoryData(
@@ -270,7 +245,7 @@ export default function Home() {
 
     console.log(`UserOperation included: ${txHash}`);
 
-    createAccountt()
+    createControlAccount();
   };
 
   const { ref: ref1, inView: inView1 } = useInView({
@@ -338,22 +313,22 @@ export default function Home() {
         </motion.p>
 
         {!hasAccount && (
-        <div className=" h-8 flex flex-row space-x-6 justify-center items-center text-center mt-4">
-          <button
-            className="flex justify-center mt-6 h-[3.5rem] w-64  rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold"
-            onClick={() => createAccount()}
-          >
-            Create Your Smart Account
-          </button>
+          <div className=" h-8 flex flex-row space-x-6 justify-center items-center text-center mt-4">
+            <button
+              className="flex justify-center mt-6 h-[3.5rem] w-64  rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold"
+              onClick={() => createAccount()}
+            >
+              Create Your Smart Account
+            </button>
 
-          <button
-            className="flex justify-center mt-6 h-[3.5rem] w-64  rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold"
-            onClick={() => fundAccount()}
-          >
-            Fund Your Smart Account
-          </button>
-        </div>
-      )}
+            <button
+              className="flex justify-center mt-6 h-[3.5rem] w-64  rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold"
+              onClick={() => fundAccount()}
+            >
+              Fund Your Smart Account
+            </button>
+          </div>
+        )}
 
         <div className="flex mt-[600px] ">
           <div className="flex flex-col space-y-64">
@@ -451,7 +426,7 @@ export default function Home() {
           </div>
         </div>
       </WavyBackground>
-{/* 
+      {/* 
       <button
         className="flex justify-center mt-6 h-[3.5rem] w-64  rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4"
         onClick={() => consoleAddress()}

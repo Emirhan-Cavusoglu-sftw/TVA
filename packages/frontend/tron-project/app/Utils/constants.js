@@ -1,6 +1,6 @@
 // gnosis chiado rpc => https://rpc.chiadochain.net	
 // gnosis pimlico url => https://api.pimlico.io/v2/10200/rpc?apikey=382125ba-467a-4a7a-8ac8-05dae90d873b
-export const AF_ADDRESS="0xC799C71cB0397e3BC19525F157562152d5CE66e5"
+export const AF_ADDRESS="0xdfEEB8d5A90E13eeDd1DAbf199C51850C0dB2fAf"
 export const accountControlAddress="TGBKjUS7QYXfuHHnPP8BzRSUY9zvEesdhQ"
 // TB7mAnPUP7q2yKrEXHdg3WCArdM9enrk5M
 // gnosis pimlico api key => 382125ba-467a-4a7a-8ac8-05dae90d873b
@@ -150,6 +150,15 @@ export const accountFactoryABI = [
       ],
       "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
       "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "getAllTsds",
+      "inputs": [],
+      "outputs": [
+        { "name": "", "type": "address[]", "internalType": "address[]" }
+      ],
+      "stateMutability": "view"
     },
     {
       "type": "function",

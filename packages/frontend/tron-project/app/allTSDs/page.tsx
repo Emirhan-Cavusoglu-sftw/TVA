@@ -24,7 +24,7 @@ const AllTSDs = () => {
   const { user, primaryWallet } = useDynamicContext();
 
 
-  
+  // factoryContract.read.getAllTsds();
   const getTSD = async () => {
     if (!primaryWallet || !primaryWallet.address) {
       console.error('Wallet address is not available.');
@@ -65,6 +65,12 @@ const AllTSDs = () => {
     setTSDcards(newTSDcards);
   };
 
+  const getAllTsds = async () => {
+    const tsds = await factoryContract.read.getAllTsds();
+    console.log(tsds);
+  }
+  
+
   useEffect(() => {
     getTSD();
   }, [primaryWallet]);;
@@ -86,6 +92,9 @@ const AllTSDs = () => {
               );
             })}
         </div>
+        <button className="flex justify-center  h-[3.5rem] w-64 rounded-xl bg-amber-400 bg-opacity-80 text-black text-center items-center font-bold border border-black" onClick={()=>getAllTsds()}>
+          Get All TSDs
+        </button>
       </div>
     </>
   );

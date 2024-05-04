@@ -25,50 +25,9 @@ const tronWeb = new TronWeb({
   fullHost: "https://nile.trongrid.io/",
   headers: {},
 });
-// import { accountABI } from "../utils/constants";
-// import { encodeFunctionData, Hex } from "viem";
-// import {
-//   accountContract,
-//   attestTSD,
-//   bundlerClient,
-//   entryPointContract,
-//   factory,
-//   factoryContract,
-//   getAccountContract,
-//   getCreateTSD,
-//   getGasPrice,
-//   getTSDContract,
-// } from "../utils/helper";
-// import { create } from "domain";
-// import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
 
-// const PDFDownloadLink = dynamic(
-//   () => import("@react-pdf/renderer").then((mod) => mod.PDFDownloadLink),
-//   { ssr: false }
-// );
 
-const sign = async (transaction: { transaction: any }) => {
-  try {
-    // @ts-ignore
-    const tronweb: any = window.tronWeb;
-    const signedTransaction = await tronweb.trx.sign(transaction.transaction);
-    return signedTransaction;
-  } catch (error) {
-    console.log(error, "signerr");
-    throw new Error(String(error));
-  }
-};
 
-const sendRawTransaction = async (signedTransaction: any) => {
-  try {
-    // @ts-ignore
-    const tronweb = window.tronWeb;
-    const result = await tronweb.trx.sendRawTransaction(signedTransaction);
-    return result;
-  } catch (error) {
-    throw new Error(error);
-  }
-};
 const CreateYourDesignStamp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [attestTxHash, setAttestTxHash] = useState(null);
@@ -116,47 +75,8 @@ const CreateYourDesignStamp = () => {
   //   getContract();
   // }, []);
 
-  async function retrieve() {
-    let result = await contract.tsds("0").call();
-
-    console.log(result);
-  }
-  // @ts-ignore
-  async function createTSD(proofName, proofDescription, ipfsUrl) {
-    try {
-      const result = await tronWeb.transactionBuilder.triggerSmartContract(
-        tsdFactoryAddress,
-        "createTSD(string,string,string,string)",
-        { _isConstant: false },
-        [
-          {
-            type: "string",
-            value: "EC",
-          },
-          {
-            type: "string",
-            value: proofName,
-          },
-          {
-            type: "string",
-            value: proofDescription,
-          },
-          {
-            type: "string",
-            value: ipfsUrl,
-          },
-        ]
-      );
-      console.log(result);
-      const signedTransaction = await sign(result);
-      const transaction = await sendRawTransaction(signedTransaction);
-      console.log(transaction);
-    } catch (error) {
-      console.log(error);
-    }
-
-    setresult(result);
-  }
+  
+  
 
   const handleFileChange = async (e) => {
     const selectedFiles = e.target.files;

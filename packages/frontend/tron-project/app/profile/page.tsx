@@ -229,7 +229,7 @@ const Profile = () => {
 
         <div className="flex justify-center flex-col items-center space-y-5 mr-12 ">
           <h1 className="font-bold text-4xl ml-12 mb-14">Registrations</h1>
-          <div className="flex justify-center flex-wrap space-x-10 ml-12 pb-10 ">
+          <div className="flex justify-center flex-wrap gap-5">
             {TSDcards.map((tsd, index) => {
               return (
                 <TSDInfoCard

@@ -18,33 +18,16 @@ import {
   DynamicWidget,
   useDynamicContext,
 } from "@dynamic-labs/sdk-react-core";
+import { motion } from "framer-motion";
 
 const AllTSDs = () => {
   const [TSDcards, setTSDcards] = useState([]);
   const { user, primaryWallet } = useDynamicContext();
+  const [searchTerm, setSearchTerm] = useState('');
 
-
-  // factoryContract.read.getAllTsds();
-  const getTSD = async () => {
-    if (!primaryWallet || !primaryWallet.address) {
-      console.error('Wallet address is not available.');
-      return;
-    }
-  
-    const address = primaryWallet.address;
-  
-    // Retrieve the user account address using the wallet address
-    const userAccountAddress = await factoryContract.read.ownerToAccount([address]);
-  
-    if (!userAccountAddress) {
-      console.error('User account address is not available.');
-      return;
-    }
-  
-    // Proceed to get TSDs only if `userAccountAddress` is available
-    const accountContract = await getAccountContract(userAccountAddress);
-    const tsds = await accountContract.read.getTsds();
-    
+  const getAllTsds = async () => {
+    const tsds = await factoryContract.read.getAllTsds();
+    console.log(tsds);
     const newTSDcards = await Promise.all(
       tsds.map(async (tsd) => {
         const tsdContract = await getTSDContract(tsd);
@@ -55,46 +38,61 @@ const AllTSDs = () => {
         return { ...tsd, tsdAddress, userName, ipfsUrl, proofName };
       })
     );
-  
-    if (newTSDcards.length > 0) {
-      const lastTSD = newTSDcards[newTSDcards.length - 1];
-      console.log(lastTSD.ipfsUrl);
-    }
-  
     console.log(newTSDcards.length);
     setTSDcards(newTSDcards);
   };
 
-  const getAllTsds = async () => {
-    const tsds = await factoryContract.read.getAllTsds();
-    console.log(tsds);
-  }
-  
-
   useEffect(() => {
-    getTSD();
-  }, [primaryWallet]);;
+    getAllTsds();
+  }, []);
+
+  const filteredTSDcards = TSDcards.filter((tsd) =>
+    tsd.proofName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <>
-      <div className="flex justify-center flex-col items-center space-y-5 mr-12 mt-8">
-        <h1 className="font-bold text-4xl ml-12 mb-14">Registrations</h1>
-        <div className="flex justify-center flex-wrap space-x-10 ml-12 pb-10 ">
-        {TSDcards.map((tsd, index) => {
-              return (
-                <TSDInfoCard
-                  key={index}
-                  tsdAddress={tsd.tsdAddress}
-                  ipfsUrl={tsd.ipfsUrl}
-                  userName={tsd.userName}
-                  proofName={tsd.proofName}
-                />
-              );
-            })}
+      <div className="flex flex-col items-center space-y-5 mt-8">
+        <motion.div
+          className="flex justify-center mt-6"
+          initial={{ y: -100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Search by Proof Name..."
+              className="pl-10 pr-4 w-96 h-[3.5rem] rounded-xl focus:outline-none focus:border-gray-800 bg-white bg-opacity-80"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)} 
+            />
+            <svg
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-5 w-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <circle cx="10.5" cy="10.5" r="7.5" />
+              <line x1="21" y1="21" x2="15.8" y2="15.8" />
+            </svg>
+          </div>
+        </motion.div>
+        <h1 className="font-bold text-4xl mb-14">Registrations</h1>
+        <div className="flex justify-center flex-wrap gap-5">
+          {filteredTSDcards.map((tsd, index) => (
+            <TSDInfoCard
+              key={index}
+              tsdAddress={tsd.tsdAddress}
+              ipfsUrl={tsd.ipfsUrl}
+              userName={tsd.userName}
+              proofName={tsd.proofName}
+            />
+          ))}
         </div>
-        <button className="flex justify-center  h-[3.5rem] w-64 rounded-xl bg-amber-400 bg-opacity-80 text-black text-center items-center font-bold border border-black" onClick={()=>getAllTsds()}>
-          Get All TSDs
-        </button>
       </div>
     </>
   );

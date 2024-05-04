@@ -269,6 +269,7 @@ const CreateYourDesignStamp = () => {
     } finally {
       setIsLoading(false);
       setAttestCompleted(true);
+      window.location.reload();
     }
   };
   // const getTSD = async () => {

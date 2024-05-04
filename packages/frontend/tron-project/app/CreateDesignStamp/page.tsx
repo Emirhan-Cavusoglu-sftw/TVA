@@ -88,7 +88,7 @@ const CreateYourDesignStamp = () => {
   const [result, setresult] = useState();
   const [hasAccount, setHasAccount] = useState<boolean>();
 
-  // const contract = tronWeb.contract(tsdFactoryABI, tsdFactoryAddress);
+  // const contract = tronWeb.contract(tsdFactoryABI, tsdFactoryAddress);;
   // @ts-ignore
   useEffect(() => {
     if (window.tronWeb) {

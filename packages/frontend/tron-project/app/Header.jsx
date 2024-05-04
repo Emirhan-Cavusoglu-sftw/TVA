@@ -40,10 +40,10 @@ export const Header = () => {
               Contact Us
             </p>
           </Link>
-          <Link href={"/allTSDs"}>
+          <Link href={"/AllTSDs"}>
             <p
               className={
-                pathname === "/allTSDs" ? "text-[#93A6EB]" : "text-black"
+                pathname === "/AllTSDs" ? "text-[#93A6EB]" : "text-black"
               }
             >
               All TSDs

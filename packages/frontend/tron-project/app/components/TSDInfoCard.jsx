@@ -18,7 +18,7 @@ const TSDInfoCard = ({ tsdAddress,ipfsUrl,userName, proofName }) => {
       <Link className="font-bold" href={`https://sepolia.scrollscan.com/address/${tsdAddress}`} target="_blank">Proof: {tsdAddress}</Link>
       </div>
       <Image
-        src={"/pixelScrolll.png"}
+        src={"/kalkan.png"}
         alt="Scroll"
         className="z-0"
         height={200}

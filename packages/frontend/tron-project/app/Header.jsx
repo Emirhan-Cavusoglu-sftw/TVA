@@ -46,7 +46,7 @@ export const Header = () => {
                 pathname === "/allTSDs" ? "text-[#93A6EB]" : "text-black"
               }
             >
-              All TSD's
+              All TSDs
             </p>
           </Link>
           <Link href={"/CreateDesignStamp"}>

@@ -8,10 +8,10 @@ const TSDInfoCard = ({ ipfsUrl,userName, proofName }) => {
 
   return (
     <div className="flex flex-col justify-center text-center items-center mt-12 ">
-      <div className="flex flex-row bg-orange-400 h-[50px] w-full rounded-2xl ml-12 justify-center items-center text-center mr-6">
+      {/* <div className="flex flex-row bg-amber-200 h-[50px] w-full rounded-2xl ml-12 justify-center items-center text-center mr-6">
         <h1 className="font-bold text-xl">Username: {userName}</h1>
-      </div>
-      <div className="flex flex-row bg-orange-400 h-[50px] w-full rounded-2xl ml-12 justify-center items-center text-center mr-6 mt-4">
+      </div> */}
+      <div className="flex flex-row bg-amber-400 bg-opacity-80 h-[50px] w-full rounded-2xl ml-12 justify-center items-center text-center mr-6 mt-4">
         <h1 className="font-bold text-xl">Proofname: {proofName}</h1>
       </div>
       <Image
@@ -23,7 +23,7 @@ const TSDInfoCard = ({ ipfsUrl,userName, proofName }) => {
       />
       {ipfsUrl && (
         <Link href={ipfsUrl} download target="_blank">
-          <button className="flex justify-center  h-[3.5rem] w-52 rounded-xl bg-gray-200 bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4">
+          <button className="flex justify-center  h-[3.5rem] w-52 rounded-xl bg-amber-400 bg-opacity-80 text-black text-center items-center font-bold border border-black">
             Download PDF from IPFS
           </button>
         </Link>

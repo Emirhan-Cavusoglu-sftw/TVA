@@ -7,7 +7,6 @@ import { usePathname } from "next/navigation";
 import { DynamicWidget } from "@dynamic-labs/sdk-react-core";
 // import WalletComponent from "./components/WalletComponent";
 
-
 export const Header = () => {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -18,10 +17,10 @@ export const Header = () => {
 
   return (
     <header className="z-[999] sticky top-0">
-      <div className="flex flex-row justify-center items-center text-center space-x-10">
+      <div className="flex flex-row justify-center items-center text-center space-x-24">
         <motion.div
-          className="flex justify-center items-center mt-6 h-[3.5rem] w-[60rem]
-        rounded-xl border border-black border-l-4 border-b-4 bg-white
+          className="flex justify-center items-center mt-6 h-[3.5rem] w-[70rem]
+        rounded-xl bg-white
         bg-opacity-80 space-x-32 font-bold max-sm:w-[40rem] "
           initial={{ y: -100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -41,6 +40,15 @@ export const Header = () => {
               Contact Us
             </p>
           </Link>
+          <Link href={"/allTSDs"}>
+            <p
+              className={
+                pathname === "/allTSDs" ? "text-[#93A6EB]" : "text-black"
+              }
+            >
+              All TSD's
+            </p>
+          </Link>
           <Link href={"/CreateDesignStamp"}>
             <p
               className={
@@ -52,9 +60,18 @@ export const Header = () => {
               Create Your Design Stamp
             </p>
           </Link>
+          <Link href={"/profile"}>
+            <p
+              className={
+                pathname === "/profile" ? "text-[#93A6EB]" : "text-black"
+              }
+            >
+              Profile
+            </p>
+          </Link>
         </motion.div>
 
-        <motion.div
+        {/* <motion.div
           className="flex justify-center mt-6"
           initial={{ y: -100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -80,55 +97,11 @@ export const Header = () => {
               <line x1="21" y1="21" x2="15.8" y2="15.8" />
             </svg>
           </div>
-        </motion.div>
-
-        {/* <motion.button
-          className="flex mt-6 h-[3.5rem] w-[3.5rem] rounded-xl bg-white bg-opacity-80 justify-center items-center 
-        border border-black border-l-4 border-b-4"
-          initial={{ y: -100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-        >
-          <svg
-            className="h-6 w-6 m-2"
-            width="15px"
-            height="15px"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <g id="Edit / Add_Plus">
-              <path
-                id="Vector"
-                d="M6 12H12M12 12H18M12 12V18M12 12V6"
-                stroke="#000000"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </g>
-          </svg>
-        </motion.button> */}
-
-        {/* <WalletComponent/> */}
-
-        <Link href={"/profile"}>
-          <motion.button
-            className={
-              pathname === "/profile"
-                ? " flex justify-center mt-6 h-[3.5rem] w-32 rounded-xl bg-white bg-opacity-80 text-[#93A6EB] text-center items-center font-bold border border-black border-l-4 border-b-4"
-                : " flex justify-center mt-6 h-[3.5rem] w-32 rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4"
-            }
-            initial={{ y: -100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-          >
-            Profile
-          </motion.button>
-        </Link>
-        <DynamicWidget/>
+        </motion.div> */}
+        <div className="flex justify-center items-center text-center mt-6">
+          <DynamicWidget />
+        </div>
       </div>
     </header>
   );
 };
-

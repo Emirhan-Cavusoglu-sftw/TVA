@@ -9,7 +9,12 @@
 body {
   min-height: 200vh;
   height: 200vh;
-  background-color: rgb(255, 222, 181);
+  /* background-color: #0072da; */
+  /* background-color: rgb(255, 222, 181); */
+  background: rgb(255,205,95);
+  background: linear-gradient(270deg, rgba(255,205,95,1) 0%, rgba(255,235,168,1) 100%);
+  
+  
 }
 /* :root {
   box-sizing: border-box;

@@ -9,7 +9,7 @@ export const WavyBackground = ({
   containerClassName,
   colors,
   waveWidth,
-  backgroundFill,
+  
   blur = 0,
   speed = "fast",
   waveOpacity = 0.5,
@@ -20,7 +20,7 @@ export const WavyBackground = ({
   containerClassName?: string;
   colors?: string[];
   waveWidth?: number;
-  backgroundFill?: string;
+  
   blur?: number;
   speed?: "slow" | "fast";
   waveOpacity?: number;
@@ -62,11 +62,11 @@ export const WavyBackground = ({
   };
 
   const waveColors = colors ?? [
-    "#38bdf8",
-    "#818cf8",
-    "#ad6aed",
-    "#FF494A",
-    "#62e6d4",
+    "#64fffd",//turkuaz
+    "#fbf528",//sarı
+    "#2829fb",//mavi
+    "#30fb28",//yeşil
+    "#fb2828",//kırmızı
   ];
   const drawWave = (n: number) => {
     nt += getSpeed();
@@ -85,12 +85,29 @@ export const WavyBackground = ({
 
   let animationId: number;
   const render = () => {
-    ctx.fillStyle = backgroundFill || "rgb(255, 222, 181)";
+    // Create a linear gradient from left to right
+    const gradient = ctx.createLinearGradient(0, 0, w, 0);
+  
+    // Add color stops for your desired gradient colors
+    gradient.addColorStop(0, "rgba(255,235,168,1)"); // Starting color
+    gradient.addColorStop(1, "rgba(255,205,95,1)"); // Ending color
+
+    // Set the gradient as the fill style
+    ctx.fillStyle = gradient;
+  
+    // Set the global opacity for the wave
     ctx.globalAlpha = waveOpacity || 0.5;
+  
+    // Fill the canvas with the gradient
     ctx.fillRect(0, 0, w, h);
+  
+    // Draw the wave
     drawWave(5);
+  
+    // Request the next frame of animation
     animationId = requestAnimationFrame(render);
   };
+  
 
   useEffect(() => {
     init();

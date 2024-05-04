@@ -1,4 +1,3 @@
-
 "use client";
 import React, { useEffect, useState } from "react";
 import { uploadFileToIPFS } from "../Utils/pinata";
@@ -6,11 +5,18 @@ import MyDocument from "../components/pdfviewer.jsx";
 // import dynamic from "next/dynamic";
 import { pdf } from "@react-pdf/renderer";
 import Link from "next/link";
-
+import { Vortex } from "../components/vortex";
 import { testAddress, tsdFactoryAddress } from "../Utils/addresses.js";
-import { bundlerClient, entryPointContract, factoryContract, getCreateTSD, getGasPrice } from "../Utils/helper";
+import {
+  bundlerClient,
+  entryPointContract,
+  factoryContract,
+  getCreateTSD,
+  getGasPrice,
+} from "../Utils/helper";
 import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
 import { Hex } from "viem";
+import Image from "next/image";
 
 const TronWeb = require("tronweb");
 
@@ -120,7 +126,7 @@ const CreateYourDesignStamp = () => {
 
   async function retrieve() {
     let result = await contract.tsds("0").call();
-    
+
     console.log(result);
   }
   // @ts-ignore
@@ -218,8 +224,6 @@ const CreateYourDesignStamp = () => {
       // Upload PDF to Pinata
       const ipfsUrl = await uploadPDFToPinata(pdfBlob);
 
-      
-
       let nonce = await entryPointContract.read.getNonce([accountAddress, 0]);
 
       const createTSD = await getCreateTSD(
@@ -298,13 +302,14 @@ const CreateYourDesignStamp = () => {
 
   return (
     <>
-      <div className=" flex justify-center items-center text-center mt-24">
+      <div className="flex justify-center items-center text-center">
+        <Image src={"/sc.png"} alt="tron" width={1400} height={2000} className="flex justify-center items-center " />
         <form
-          className="flex flex-col justify-center items-center text-center w-[1000px] h-[750px] bg-blue-300 rounded-3xl space-y-4"
+          className="absolute flex flex-col justify-center items-center text-center w-[550px] h-[750px] bg-transparent   space-y-4"
           onSubmit={handleSubmit}
         >
           <label htmlFor="file" className="cursor-pointer">
-            <div className="flex w-[700px] h-[300px] flex-col border-2 border-black space-y-5 justify-center rounded-3xl">
+            <div className="flex w-[550px] h-[300px] flex-col border-2 border-black space-y-5 justify-center rounded-3xl">
               <div className="flex flex-wrap justify-center">
                 {previews.map((preview, index) => (
                   <div
@@ -321,11 +326,11 @@ const CreateYourDesignStamp = () => {
               </div>
               {previews.length === 0 && (
                 <>
-                  <h1 className="font-bold">Upload Your Proof</h1>
-                  <h1 className="font-bold">
+                  <h1 className="font-bold  ">Upload Your Proof</h1>
+                  <h1 className="font-bold font-alkatra">
                     Drag and Drop or Choose your Image(s)
                   </h1>
-                  <h1 className="font-bold">(Max size 2GB)</h1>
+                  <h1 className="font-bold font-alkatra">(Max size 2GB)</h1>
                 </>
               )}
             </div>
@@ -340,13 +345,13 @@ const CreateYourDesignStamp = () => {
           />
           <div className="flex flex-col justify-center items-center space-y-4 w-96">
             <label
-              className="block text-black font-bold  text-xl"
+              className="block text-black font-bold font-alkatra text-xl"
               htmlFor="name"
             >
               Proof Name
             </label>
             <input
-              className="shadow appearance-none w-96 h-12 rounded-2xl border-2 border-black bg-gray-200 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none w-96 h-12 rounded-2xl border-2 border-black bg-transparent leading-tight focus:outline-none focus:shadow-outline"
               id="name"
               type="text"
               placeholder=""
@@ -355,19 +360,19 @@ const CreateYourDesignStamp = () => {
             />
 
             <label
-              className="block text-black font-bold text-xl "
+              className="block text-black font-bold text-xl font-alkatra "
               htmlFor="description"
             >
               Proof Description
             </label>
             <textarea
-              className="shadow appearance-none  rounded-2xl w-full h-44 border-2 border-black bg-gray-200 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none rounded-2xl w-full h-44 border-2 border-black bg-transparent leading-tight focus:outline-none focus:shadow-outline"
               id="description"
               value={proofDescription}
               onChange={handleDescriptionChange}
             ></textarea>
             <button
-              className="h-10 w-40 bg-gray-200 rounded-lg text-center border-2 border-black font-bold"
+              className="h-10 w-40 bg-amber-400 rounded-lg text-center border-2 border-black font-bold cursor-pointer font-alkatra"
               disabled={!enableButton || isLoading} // Disable the button if the form is being submitted
               type="submit"
             >
@@ -375,9 +380,9 @@ const CreateYourDesignStamp = () => {
             </button>
           </div>
         </form>
-
-        <button className="h-10 w-40 bg-gray-200 rounded-lg text-center border-2 border-black font-bold" onClick={()=>retrieve()}></button>
       </div>
+      
+      
     </>
   );
 };

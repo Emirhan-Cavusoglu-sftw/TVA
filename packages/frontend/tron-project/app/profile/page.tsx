@@ -1,8 +1,8 @@
 "use client";
 import React, { use, useEffect, useState } from "react";
-import TSDCard from "../Components/TSDCard";
+import TSDCard from "../components/TSDCard";
 import Image from "next/image";
-import TSDInfoCard from "../Components/TSDInfoCard";
+import TSDInfoCard from "../components/TSDInfoCard";
 import {
   getTSDContract,
   factoryContract,
@@ -10,7 +10,7 @@ import {
   getAccountContract,
   publicClient,
   walletClient,
-} from "../Utils/helper";
+} from "../utils/helper";
 import motion from "framer-motion";
 import {
   DynamicContextProvider,
@@ -18,12 +18,12 @@ import {
   useDynamicContext,
 } from "@dynamic-labs/sdk-react-core";
 import { Hex, parseEther, parseUnits } from "viem";
-import { accountABI, entryPointABI } from "../Utils/constants";
+import { accountABI, entryPointABI } from "../utils/constants";
 import { ENTRYPOINT_ADDRESS_V07 } from "permissionless";
 import { get } from "http";
-import { Vortex } from "../Components/vortex";
+import { Vortex } from "../components/vortex";
 import { readContract } from "wagmi/actions";
-import { config } from "../Utils/config";
+import { config } from "../utils/config";
 
 const Profile = () => {
   const { user, primaryWallet } = useDynamicContext();

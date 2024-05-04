@@ -1,19 +1,19 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { uploadFileToIPFS } from "../Utils/pinata";
-import MyDocument from "../Components/pdfviewer.jsx";
+import { uploadFileToIPFS } from "../utils/pinata";
+import MyDocument from "../components/pdfviewer.jsx";
 // import dynamic from "next/dynamic";
 import { pdf } from "@react-pdf/renderer";
 import Link from "next/link";
-import { Vortex } from "../Components/vortex";
-import { testAddress, tsdFactoryAddress } from "../Utils/addresses.js";
+import { Vortex } from "../components/vortex";
+import { testAddress, tsdFactoryAddress } from "../utils/addresses.js";
 import {
   bundlerClient,
   entryPointContract,
   factoryContract,
   getCreateTSD,
   getGasPrice,
-} from "../Utils/helper";
+} from "../utils/helper";
 import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
 import { Hex } from "viem";
 import Image from "next/image";

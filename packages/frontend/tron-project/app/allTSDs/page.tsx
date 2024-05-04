@@ -1,6 +1,6 @@
 "use client";
 import React, { use, useEffect, useState } from "react";
-import TSDInfoCard from "../Components/TSDInfoCard";
+import TSDInfoCard from "../components/TSDInfoCard";
 import {
   getTSDContract,
   factoryContract,
@@ -8,7 +8,7 @@ import {
   getAccountContract,
   publicClient,
   walletClient,
-} from "../Utils/helper";
+} from "../utils/helper";
 
 import {
   DynamicContextProvider,

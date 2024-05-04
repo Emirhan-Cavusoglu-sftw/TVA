@@ -1,13 +1,13 @@
 "use client";
 //@ts-nocheck
 import React, { useEffect, useRef, useState } from "react";
-import { WavyBackground } from "./Components/wavy-background";
+import { WavyBackground } from "./components/wavy-background";
 import Image from "next/image";
 
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
-import { testABI, testAddress } from "./Utils/addresses.js";
+import { testABI, testAddress } from "./utils/addresses.js";
 import {
   bundlerClient,
   calculateSenderAddress,
@@ -20,7 +20,7 @@ import {
   getNonce,
   publicClient,
   walletClient,
-} from "./Utils/helper";
+} from "./utils/helper";
 import { ENTRYPOINT_ADDRESS_V07 } from "permissionless";
 import {
   accountControlABI,
@@ -28,7 +28,7 @@ import {
   accountFactoryABI,
   AF_ADDRESS,
   entryPointABI,
-} from "./Utils/constants";
+} from "./utils/constants";
 import { DynamicWidget } from "@dynamic-labs/sdk-react-core";
 import {
   DynamicContextProvider,
@@ -37,7 +37,7 @@ import {
 import { Hex, parseEther } from "viem";
 import { scrollSepolia } from "wagmi/chains";
 import { getAccount, writeContract, readContract } from "wagmi/actions";
-import { config } from "./Utils/config";
+import { config } from "./utils/config";
 
 const TronWeb = require("tronweb");
 

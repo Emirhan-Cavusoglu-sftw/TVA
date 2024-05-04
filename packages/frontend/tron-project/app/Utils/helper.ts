@@ -37,7 +37,7 @@ import {
   AF_ADDRESS,
   
   tsdABI,
-} from "../utils/constants";
+} from "./constants";
 import dynamic from "next/dynamic";
 import { privateKeyToSimpleSmartAccount } from "permissionless/accounts";
 import { readContract } from "@wagmi/core";

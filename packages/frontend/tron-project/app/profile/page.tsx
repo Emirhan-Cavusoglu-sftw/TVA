@@ -18,7 +18,7 @@ import {
   useDynamicContext,
 } from "@dynamic-labs/sdk-react-core";
 import { Hex, parseEther, parseUnits } from "viem";
-import { accountABI, entryPointABI } from "../utils/constants";
+import { accountABI, entryPointABI } from "../Utils/constants";
 import { ENTRYPOINT_ADDRESS_V07 } from "permissionless";
 import { get } from "http";
 import { Vortex } from "../components/vortex";

@@ -13,14 +13,16 @@ const TSDInfoCard = ({ tsdAddress,ipfsUrl,userName, proofName }) => {
       </div> */}
       <div className="flex flex-row bg-amber-400 bg-opacity-80 h-[50px] w-full rounded-2xl ml-12 justify-center items-center text-center mr-6 mt-4">
         <h1 className="font-bold text-xl">Proofname: {proofName}</h1>
-        <Link href={`https://sepolia.scrollscan.com/address/${tsdAddress}`} target="_blank">Proof: {tsdAddress}</Link>
+      </div>
+      <div className="flex flex-row bg-amber-400 bg-opacity-80 h-[50px] w-full rounded-2xl ml-12 justify-center items-center text-center mr-6 mt-4">
+      <Link className="font-bold" href={`https://sepolia.scrollscan.com/address/${tsdAddress}`} target="_blank">Proof: {tsdAddress}</Link>
       </div>
       <Image
         src={"/pixelScrolll.png"}
         alt="Scroll"
         className="z-0"
-        height={400}
-        width={450}
+        height={200}
+        width={250}
       />
       {ipfsUrl && (
         <Link href={ipfsUrl} download target="_blank">

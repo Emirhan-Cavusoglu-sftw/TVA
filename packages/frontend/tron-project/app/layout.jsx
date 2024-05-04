@@ -59,7 +59,7 @@ export default function RootLayout({ children }) {
         <DynamicContextProvider
           settings={{
             overrides: { evmNetworks },
-            environmentId: "2762a57b-faa4-41ce-9f16-abff9300e2c9",
+            environmentId: "05fe435f-3a76-4bf3-9350-85031f73b9b8",
             walletConnectors: [EthereumWalletConnectors],
           }}
         > 

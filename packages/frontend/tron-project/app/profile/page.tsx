@@ -21,7 +21,7 @@ import { Hex, parseEther, parseUnits } from "viem";
 import { accountABI, entryPointABI } from "../Utils/constants";
 import { ENTRYPOINT_ADDRESS_V07 } from "permissionless";
 import { get } from "http";
-import { Vortex } from "../components/vortex";
+import { Vortex } from "../Components/vortex";
 import { readContract } from "wagmi/actions";
 import { config } from "../Utils/config";
 

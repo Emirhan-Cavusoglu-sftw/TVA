@@ -9,10 +9,7 @@ import {
   publicClient,
   walletClient,
 } from "../Utils/helper";
-import { Hex, parseEther, parseUnits } from "viem";
-import { readContract } from "wagmi/actions";
-import { config } from "../Utils/config";
-import { accountABI, entryPointABI } from "../utils/constants";
+
 import {
   DynamicContextProvider,
   DynamicWidget,
@@ -23,7 +20,7 @@ import { motion } from "framer-motion";
 const AllTSDs = () => {
   const [TSDcards, setTSDcards] = useState([]);
   const { user, primaryWallet } = useDynamicContext();
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   const getAllTsds = async () => {
     const tsds = await factoryContract.read.getAllTsds();
@@ -65,7 +62,7 @@ const AllTSDs = () => {
               placeholder="Search by Proof Name..."
               className="pl-10 pr-4 w-96 h-[3.5rem] rounded-xl focus:outline-none focus:border-gray-800 bg-white bg-opacity-80"
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)} 
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
             <svg
               className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-5 w-5"

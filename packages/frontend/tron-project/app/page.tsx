@@ -1,7 +1,7 @@
 "use client";
 //@ts-nocheck
 import React, { useEffect, useRef, useState } from "react";
-import { WavyBackground } from "./components/wavy-background";
+import { WavyBackground } from "./Components/wavy-background";
 import Image from "next/image";
 
 import { motion, useAnimation } from "framer-motion";
@@ -28,7 +28,7 @@ import {
   accountFactoryABI,
   AF_ADDRESS,
   entryPointABI,
-} from "./utils/constants";
+} from "./Utils/constants";
 import { DynamicWidget } from "@dynamic-labs/sdk-react-core";
 import {
   DynamicContextProvider,

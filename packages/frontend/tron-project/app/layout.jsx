@@ -2,7 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "./Header";
 import { WalletProvider } from "@tronweb3/tronwallet-adapter-react-hooks";
-import Provider from "./components/dy-provider";
+
 import {
   DynamicContextProvider,
   EthereumWalletConnectors,
@@ -12,19 +12,15 @@ import {
 //   DynamicWidget,
 // } from '@dynamic-labs/sdk-react-core';
 
-
 // import {
 //   createConfig,
 //   WagmiProvider,
 //   useAccount,
 // } from 'wagmi';
 
-import { http } from 'viem';
+import { http } from "viem";
 
 import { scrollSepolia } from "wagmi/chains";
-
-
-
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -62,13 +58,10 @@ export default function RootLayout({ children }) {
             environmentId: "05fe435f-3a76-4bf3-9350-85031f73b9b8",
             walletConnectors: [EthereumWalletConnectors],
           }}
-        > 
-        
-
+        >
           <div className={inter.className}>
             <Header /> {children}
           </div>
-         
         </DynamicContextProvider>
       </body>
     </html>

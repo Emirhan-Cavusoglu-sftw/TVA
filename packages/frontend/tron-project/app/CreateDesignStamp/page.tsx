@@ -90,16 +90,7 @@ const CreateYourDesignStamp = () => {
   const [hasAccount, setHasAccount] = useState<boolean>();
 
   // const contract = tronWeb.contract(tsdFactoryABI, tsdFactoryAddress);;
-  // @ts-ignore
-  useEffect(() => {
-    if (window.tronWeb) {
-      console.log(window.tronWeb.defaultAddress.base58);
-      const tronWeb = window.tronWeb;
-      tronWeb.setAddress(window.tronWeb.defaultAddress.base58);
-    } else {
-      console.log("no tronweb");
-    }
-  }, []);
+  
 
   useEffect(() => {
     const fetchAccountAddress = async () => {

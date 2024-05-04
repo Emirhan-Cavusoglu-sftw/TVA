@@ -31,15 +31,7 @@ export const Header = () => {
               Home
             </p>
           </Link>
-          <Link href={"/ContactUs"}>
-            <p
-              className={
-                pathname === "/ContactUs" ? "text-[#93A6EB]" : "text-black"
-              }
-            >
-              Contact Us
-            </p>
-          </Link>
+          
           <Link href={"/AllTSDs"}>
             <p
               className={

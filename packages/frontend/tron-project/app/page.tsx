@@ -45,28 +45,7 @@ const tronWeb = new TronWeb({
   fullHost: "https://nile.trongrid.io/",
   headers: {},
 });
-// const tronExist = !!(window as any).tronWeb.defaultAddress.base58;
-// const tronAddress = (window as any).tronWeb.defaultAddress.base58;
-// const sign = async (transaction: { transaction: any }) => {
-//   try {
-//     const tronweb = window.tronWeb;
-//     const signedTransaction = await tronweb.trx.sign(transaction.transaction);
-//     return signedTransaction;
-//   } catch (error) {
-//     console.log(error, "signerr");
-//     throw new Error(String(error));
-//   }
-// };
 
-// const sendRawTransaction = async (signedTransaction: any) => {
-//   try {
-//     const tronweb = window.tronWeb;
-//     const result = await tronweb.trx.sendRawTransaction(signedTransaction);
-//     return result;
-//   } catch (error) {
-//     throw new Error(error);
-//   }
-// };
 export default function Home() {
   const { user, primaryWallet } = useDynamicContext();
   const [result, setresult] = useState();
@@ -76,9 +55,8 @@ export default function Home() {
   const [accountControlContract, setAccountControlContract] = useState();
   const [testContract, setTestContract] = useState();
   const [hasFund, setHasFund] = useState<boolean>();
-  // const contract = tronWeb.contract(testABI, testAddress);
-  // const contractt = tronWeb.contract(accountControlABI, accountControlAddress);
-  // tronWeb.setAddress((window as any).tronWeb.defaultAddress.base58);
+ 
+ 
 
   useEffect(() => {
     const fetchAccountAddress = async () => {
@@ -142,7 +120,11 @@ export default function Home() {
     console.log(isAccountChecked);
   };
   const createControlAccount = async () => {
-    const tronWeb = (window as any).tronWeb;
+    if(typeof window === 'undefined'){
+
+      const tronWeb = (window as any).tronWeb;
+    }
+    
     const address = tronWeb.defaultAddress.base58;
     const metamastAddress = primaryWallet?.address;
     const contract = tronWeb.contract(accountControlABI, accountControlAddress);

@@ -24,6 +24,7 @@ import { ENTRYPOINT_ADDRESS_V07 } from "permissionless";
 import { Vortex } from "../components/vortex";
 import { readContract } from "wagmi/actions";
 import { config } from "../utils/config";
+import dynamic from "next/dynamic";
 
 const Profile = () => {
   const { user, primaryWallet } = useDynamicContext();
@@ -248,4 +249,6 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default dynamic(() => Promise.resolve(Profile), {
+  ssr: false,
+});

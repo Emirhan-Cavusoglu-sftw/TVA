@@ -17,6 +17,7 @@ import {
 import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
 import { Hex } from "viem";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 
 const TronWeb = require("tronweb");
 
@@ -388,4 +389,6 @@ const CreateYourDesignStamp = () => {
   );
 };
 
-export default CreateYourDesignStamp;
+export default dynamic(() => Promise.resolve(CreateYourDesignStamp), {
+  ssr: false,
+});

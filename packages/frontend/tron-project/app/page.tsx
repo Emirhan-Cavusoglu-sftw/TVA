@@ -38,6 +38,7 @@ import { Hex, parseEther } from "viem";
 import { scrollSepolia } from "wagmi/chains";
 import { getAccount, writeContract, readContract } from "wagmi/actions";
 import { config } from "./utils/config";
+import dynamic from "next/dynamic";
 
 const TronWeb = require("tronweb");
 
@@ -46,7 +47,7 @@ const tronWeb = new TronWeb({
   headers: {},
 });
 
-export default function Home() {
+function Home() {
   const { user, primaryWallet } = useDynamicContext();
   const [result, setresult] = useState();
   const [hasAccount, setHasAccount] = useState<boolean>();
@@ -454,3 +455,7 @@ export default function Home() {
     </>
   );
 }
+
+export default dynamic(() => Promise.resolve(Home), {
+  ssr: false,
+});

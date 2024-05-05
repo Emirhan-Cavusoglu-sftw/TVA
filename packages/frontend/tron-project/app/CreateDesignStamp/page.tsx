@@ -26,8 +26,6 @@ const tronWeb = new TronWeb({
   headers: {},
 });
 
-
-
 const CreateYourDesignStamp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [attestTxHash, setAttestTxHash] = useState(null);
@@ -49,7 +47,6 @@ const CreateYourDesignStamp = () => {
   const [hasAccount, setHasAccount] = useState<boolean>();
 
   // const contract = tronWeb.contract(tsdFactoryABI, tsdFactoryAddress);;
-  
 
   useEffect(() => {
     const fetchAccountAddress = async () => {
@@ -74,9 +71,6 @@ const CreateYourDesignStamp = () => {
   //   }
   //   getContract();
   // }, []);
-
-  
-  
 
   const handleFileChange = async (e) => {
     const selectedFiles = e.target.files;
@@ -184,19 +178,6 @@ const CreateYourDesignStamp = () => {
       window.location.reload();
     }
   };
-  // const getTSD = async () => {
-  //   const tsdContract = await getTSDContract(
-  //     "0xA8062732D4806e512b4Fba40fd8928C72b3Aa3A4"
-  //   );
-  //   const tsd = await accountContract.read.tsds([2]);
-  //   console.log(tsd);
-  //   const name = await tsdContract.read.projectName();
-  //   const url = await tsdContract.read.dataURI();
-
-  //   console.log(name);
-  //   // console.log({ipfsUrl})
-  //   console.log(url);
-  // };
 
   const uploadPDFToPinata = async (pdfBlob): Promise<string | undefined> => {
     try {
@@ -216,7 +197,13 @@ const CreateYourDesignStamp = () => {
   return (
     <>
       <div className="flex justify-center items-center text-center">
-        <Image src={"/sc.png"} alt="tron" width={1400} height={2000} className="flex justify-center items-center " />
+        <Image
+          src={"/sc.png"}
+          alt="tron"
+          width={1400}
+          height={2000}
+          className="flex justify-center items-center "
+        />
         <form
           className="absolute flex flex-col justify-center items-center text-center w-[550px] h-[750px] bg-transparent   space-y-4"
           onSubmit={handleSubmit}
@@ -294,8 +281,6 @@ const CreateYourDesignStamp = () => {
           </div>
         </form>
       </div>
-      
-      
     </>
   );
 };

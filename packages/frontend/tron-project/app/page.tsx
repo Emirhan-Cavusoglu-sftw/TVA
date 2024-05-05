@@ -55,8 +55,6 @@ export default function Home() {
   const [accountControlContract, setAccountControlContract] = useState();
   const [testContract, setTestContract] = useState();
   const [hasFund, setHasFund] = useState<boolean>();
- 
- 
 
   useEffect(() => {
     const fetchAccountAddress = async () => {
@@ -90,12 +88,6 @@ export default function Home() {
     getContract();
   }, [accountControlContract]);
 
-  async function consoleContract() {
-    console.log(accountControlContract);
-
-    console.log(testContract);
-  }
-
   useEffect(() => {
     const fetchAccountAddress = async () => {
       const address = primaryWallet?.address;
@@ -120,12 +112,8 @@ export default function Home() {
     console.log(isAccountChecked);
   };
   const createControlAccount = async () => {
-    
-    
+    const tronWeb = window && (window as any).tronWeb;
 
-      const tronWeb = window && (window as any).tronWeb;
-    
-    
     const address = tronWeb.defaultAddress.base58;
     const metamastAddress = primaryWallet?.address;
     const contract = tronWeb.contract(accountControlABI, accountControlAddress);
@@ -179,16 +167,6 @@ export default function Home() {
     });
     const fund = await walletClient.writeContract(request);
     console.log(fund);
-  };
-
-  const consoleNonce = async () => {
-    const factoryData = await getFactoryData(
-      primaryWallet?.address,
-      user?.alias
-    );
-    const senderAddress = await calculateSenderAddress(factoryData);
-    const nonce = await getNonce(senderAddress);
-    console.log(nonce);
   };
 
   const createAccount = async () => {

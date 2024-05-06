@@ -50,11 +50,16 @@ const endpointUrl =
   "https://api.pimlico.io/v2/534351/rpc?apikey=0d1005ee-02d9-4836-810d-27d08cceb39b";
 
 
-  export const walletClient = createWalletClient({
-    chain: scrollSepolia,
-    transport:custom(window.ethereum)
-  })
-
+  // export const walletClient = createWalletClient({
+  //   chain: scrollSepolia,
+  //   transport:custom(window?.ethereum)
+  // })
+  export function walletClient(window: any) {
+    return createWalletClient({
+      chain: scrollSepolia,
+      transport:custom((window as any)?.ethereum)
+    })
+  }
 
 // export const walletClient = createWalletClient({
 //     chain: gnosisChiado,

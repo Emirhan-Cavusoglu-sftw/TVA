@@ -166,7 +166,7 @@ function Home() {
       args: [senderAddress],
       value: parseEther("0.02"),
     });
-    const fund = await walletClient.writeContract(request);
+    const fund = await walletClient(window).writeContract(request);
     console.log(fund);
   };
 

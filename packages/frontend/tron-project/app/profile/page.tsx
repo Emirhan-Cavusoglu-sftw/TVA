@@ -56,7 +56,7 @@ const Profile = () => {
       args: [accountAddress],
       value: parseEther("0.02"),
     });
-    fund = await walletClient.writeContract(request);
+    fund = await walletClient(window).writeContract(request);
     console.log(fund);
   };
   const consoleAccount = async () => {

@@ -4,9 +4,7 @@ import { uploadFileToIPFS } from "../utils/pinata";
 import MyDocument from "../components/pdfviewer.jsx";
 // import dynamic from "next/dynamic";
 import { pdf } from "@react-pdf/renderer";
-import Link from "next/link";
-import { Vortex } from "../components/vortex";
-import { testAddress, tsdFactoryAddress } from "../utils/addresses.js";
+
 import {
   bundlerClient,
   entryPointContract,

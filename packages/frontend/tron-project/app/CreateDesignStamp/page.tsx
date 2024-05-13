@@ -137,7 +137,7 @@ const CreateYourDesignStamp = () => {
       );
 
       let gasPrice = await getGasPrice();
-
+      
       const userOperationHash = await bundlerClient.sendUserOperation({
         userOperation: {
           sender: accountAddress,
@@ -173,7 +173,8 @@ const CreateYourDesignStamp = () => {
     } finally {
       setIsLoading(false);
       setAttestCompleted(true);
-      window.location.reload();
+
+      // window.location.reload();
     }
   };
 

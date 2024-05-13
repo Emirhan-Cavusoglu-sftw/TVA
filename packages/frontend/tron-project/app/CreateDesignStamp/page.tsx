@@ -147,9 +147,9 @@ const CreateYourDesignStamp = () => {
           maxPriorityFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
           paymasterVerificationGasLimit: BigInt(1000000),
           signature: "0x" as Hex,
-          callGasLimit: BigInt(2_000_000),
-          verificationGasLimit: BigInt(2_000_000),
-          preVerificationGas: BigInt(2_000_000),
+          callGasLimit: BigInt(1_000_000),
+          verificationGasLimit: BigInt(1_000_000),
+          preVerificationGas: BigInt(1_000_000),
         },
       });
 
